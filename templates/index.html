@@ -17,39 +17,42 @@
      <a href="http://www.deloitte.com/us/shiftindex">The Shift Index</a>
     </footer>
    </blockquote>
-  <p><a class="btn btn-lg btn-success" href="#" role="button">Future starts with the Book</a></p>
+  <p><a class="btn btn-lg btn-success" href="#" role="button">
+     Future starts with the Book <span class="glyphicon glyphicon-chevron-right"></span></a>
+  </p>
 </div>
 
 
 <div class="row marketing">
+ 
+ {% for column in slides.items()|slice(2) %}
+  {% for row in column %}
   <div class="col-lg-6">
-    <h4>Books &amp; Linked Data</h4>
-    <p>
+  <h4>{{ row[1] }}</h4>
+  <div class="btn-group">
+    {% if not loop.first %}
+    <a href="{{ slides.items()[loop.index0-1][0] }}.html"
+       class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    {% endif %}
+    <a href="{{ row[0] }}.html" class="btn btn-default"><span class="glyphicon glyphicon-globe"></span></a>
+    {% if not loop.last %}
+    <a href="{{ slides.items()[loop.index0+1][0] }}.html"
+     class="btn btn-default"><span class="glyphicon glyphicon-chevron-right"></span></a>
 
-
-    </p>
-    <h4>Discovery happens elsewhere...</h4>
-    <p>
-
-    </p>
-    <h4>...but local is needed more than ever</h4>
-    <p>
-
-    </p>
-
+    {% endif %}
   </div>
-   <div class="col-lg-6">
-    <h4>Beyond Mobile</h4>
-    <p>
-
-    </p>
-    <h4>Heads up! Augmented Services</h4>
-    <p>
-
-    </p>
-    <h4>Back to the future?!</h4>
-    <p></p>
+  <p>&nbsp;</p>
   </div>
+  {% endfor %}
+ {% endfor %}
+ 
+{# 
+ <div class="col-lg-6">
+ {% for value in slides.values()[3:] %}
+  <h4>{{ value }}</h4>
+  <p></p>
+ {% endfor %}
+  </div> #}
 </div>
 
 <div class="well">
