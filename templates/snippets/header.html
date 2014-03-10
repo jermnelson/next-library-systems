@@ -1,14 +1,15 @@
 <div class="header">
   <ul class="nav nav-pills pull-right">
-   <li class="active"><a href="#">Home</a></li>
+   <li class="active"><a href="/">Home</a></li>
    <li>
     <a href="#" class="dropdown-toggle" 
        data-toggle="dropdown">Topics <b class="caret"></b></a>
       <ul class="dropdown-menu">
-      {% for slide in slides %}
-       <li><a href="{{ slide['url'] }}">{{ slide['label'] }}</a></li>
+      {% for key, name in slides.iteritems() %}
+       <li><a href="{{ url_for('slide', slide=key) }}">{{ name|safe }}</a></li>
       {% endfor %}
        <li class="divider"></li>
+       <li><a href="/resources">Resources</a></li>
       </ul>
    </li>
    <li><a href="/about">About</a></li>

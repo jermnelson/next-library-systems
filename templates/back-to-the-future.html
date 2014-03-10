@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block main %} 
+<div class="jumbotron">
+ <h1>Back to the Future?!</h1>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+   <div class="btn-group pull-right"> 
+    <a href="{{ url_for('slide', slide='heads-up-augmented-services') }}" 
+       class="btn btn-success btn-lg">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        Heads up! Augmented Services</a>
+   </div>
+  </div>
+</div>
+{% endblock %}

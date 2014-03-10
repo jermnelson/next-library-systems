@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block main %} 
+<div class="jumbotron">
+ <h1>&hellip;but local is needed more than ever</h1>
+ <p class="lead">
+  Library as Publisher, digital repository services, and creation spaces all converge 
+  on the local collections managed by Libraries
+ </p>
+</div>
+
+
+<div class="row">
+  <div class="col-md-12">
+   <div class="btn-group pull-right"> 
+    <a href="{{ url_for('slide', slide='discovery-happens-elsewhere') }}" class="btn btn-success btn-lg">
+      <span class="glyphicon glyphicon-chevron-left"></span> Discovery happens elsewhere&hellip;</a>
+    <a href="{{ url_for('slide', slide='beyond-mobile') }}" 
+       class="btn btn-success btn-lg">Beyond Mobile
+     <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+   </div>
+  </div>
+</div>
+{% endblock %}

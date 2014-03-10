@@ -21,14 +21,16 @@ app = Flask(__name__)
 slides = OrderedDict()
 slides['our-future-tracks-the-book'] = 'Our Future Tracks the book'
 slides['discovery-happens-elsewhere']= 'Discovery happens elsewhere...'
-slides['but-local-is-needed-more-than-ever'] = '...but local is needed more than ever'
+slides['local-is-needed-more-than-ever'] = '&hellip;but local is needed more than ever'
 slides['beyond-mobile'] = 'Beyond Mobile'
 slides['heads-up-augmented-services'] = 'Heads up! Augmented Services'
 slides['back-to-the-future'] = 'Back to the Future?!'
 
 @app.route("/<slide>.html")
 def slide(slide):
-    return  render_template("{}.html".format(slide),
+    template = "{}.html".format(slide)
+    print(template)
+    return  render_template(template,
                             slides=slides)
 
 @app.route("/")

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="jumbotron">
+ <h1>Discovery happens elsewhere&hellip;</h1>
+</div>
+<div class="row">
+ <div class="col-md-6">
+  <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Logo_2013_Google.png/320px-Logo_2013_Google.png">
+  <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Facebook.svg/200px-Facebook.svg.png">
+ </div>
+ <div class="col-md-6">
+  <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Bing_logo_%282013%29.svg/200px-Bing_logo_%282013%29.svg.png">
+  <img src="http://upload.wikimedia.org/wikipedia/en/thumb/9/9f/Twitter_bird_logo_2012.svg/200px-Twitter_bird_logo_2012.svg.png">
+ </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+   <div class="btn-group pull-right"> 
+    <a href="{{ url_for('slide', slide='our-future-tracks-the-book') }}" class="btn btn-success btn-lg">
+      <span class="glyphicon glyphicon-chevron-left"></span> Our Future Tracks the Book</a>
+    <a href="{{ url_for('slide', slide='local-is-needed-more-than-ever') }}" 
+       class="btn btn-success btn-lg">&hellip;but local is needed more than ever
+     <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+   </div>
+  </div>
+</div>
+{% endblock %}
+
