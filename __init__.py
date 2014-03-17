@@ -19,23 +19,42 @@ from flask import abort, Flask, g, jsonify, redirect, render_template, request
 app = Flask(__name__)
 
 slides = OrderedDict()
-slides['our-future-tracks-the-book'] = 'Our Future Tracks the book'
-slides['discovery-happens-elsewhere']= 'Discovery happens elsewhere...'
-slides['local-is-needed-more-than-ever'] = '&hellip;but local is needed more than ever'
-slides['beyond-mobile'] = 'Beyond Mobile'
-slides['heads-up-augmented-services'] = 'Heads up! Augmented Services'
-slides['back-to-the-future'] = 'Back to the Future?!'
+slides['our-future-tracks-the-book'] = {'label': 'Our Future tracks the book',
+    'description': """While libraries pre-date the book, for the past few
+    centuries as the central repository of monographs for our communities
+    dominated our identity. Just in the past ten years has the book started to
+    shifting to new, more online forms that split the content from the print
+    format."""}
+slides['discovery-happens-elsewhere']= {
+    'label':'Discovery happens elsewhere&hellip;',
+    'description': """First articulated by Lorcan Dempsey in 2007, in 2014 it
+    is not as controversial to note that typically patrons use commerical search
+    engines, social media, or mobile apps to discover items held by libraries.
+    """}
+slides['local-is-needed-more-than-ever'] = {'label':"""&hellip;but local is
+    needed more than ever""",
+    'description': """Library as Publisher, digital repository services, and
+    creation spaces all converge on the local collections managed by
+    Libraries"""}
+slides['beyond-mobile'] = {'label': 'Beyond Mobile',
+    'description': """ """}
+slides['heads-up-augmented-services'] = {'label': 'Heads up! Augmented Services',
+    'description': " "}
+slides['back-to-the-future'] = {'label':'Back to the Future?!',
+    'description': " "}
 
 @app.route("/<slide>.html")
 def slide(slide):
     template = "{}.html".format(slide)
-    print(template)
     return  render_template(template,
+                            topic=slides[slide],
+                            category='topic',
                             slides=slides)
 
 @app.route("/")
 def default():
     return render_template("index.html",
+                           category='home',
                            slides=slides)
 
 def main(dev=False):

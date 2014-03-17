@@ -19,7 +19,7 @@
     </footer>
    </blockquote>
   <p><a class="btn btn-lg btn-success" href="/our-future-tracks-the-book.html" role="button">
-     Future starts with the Book <span class="glyphicon glyphicon-chevron-right"></span></a>
+     Our Future tracks the Book <span class="glyphicon glyphicon-chevron-right"></span></a>
   </p>
 </div>
 
@@ -30,7 +30,8 @@
  {% for column in slides.items()|slice(2) %}
   {% for row in column %}
   <div class="col-lg-6">
-  <h4>{{ row[1]|safe }}</h4>
+  <h4>{{ row[1]['label']|safe }}</h4>
+  <p>{{ row[1]['description']|safe }}</p>
   <div class="btn-group">
     {% if not loop.first %}
     <a href="{{ slides.items()[loop.index0-1][0] }}.html"
@@ -70,7 +71,7 @@
 
  <div class="alert alert-danger alert-dismissable">
    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-   <strong>Disclaimer</strong> Views, opinons, and statements expressed in this presentation do not necessarily reflect my <a href="http://coloradocollege.edu/">employer</a>, <a href="https://www.coalliance.org/">CARL</a>, or partners views.
+   <strong>Disclaimer</strong> Views, opinions, and statements expressed in this presentation do not necessarily reflect my <a href="http://coloradocollege.edu/">employer</a>, <a href="https://www.coalliance.org/">CARL</a>, or partners views.
  </div>
 
 {% endblock %}
