@@ -9,11 +9,12 @@
        <li><a href="{{ url_for('slide', slide=key) }}">{{ info['label']|safe }}</a></li>
       {% endfor %}
        <li class="divider"></li>
+       <li><a href="{{ url_for('open_badge') }}">Open Badge</a></li>
        <li><a href="/resources">Resources</a></li>
       </ul>
    </li>
-   <li><a href="/about">About</a></li>
-   <li><a href="/contact">Contact</a></li>
+   <li {% if category == 'about' %}class="active"{% endif %}><a href="/about">About</a></li>
+   <li {% if category == 'contact' %}class="active"{% endif %}><a href="/contact">Contact</a></li>
   </ul>
   <h3 class="text-muted">Next Gen ILS Presentation</h3>
 </div>

@@ -51,10 +51,34 @@ def slide(slide):
                             category='topic',
                             slides=slides)
 
+@app.route("/about")
+def about():
+    return render_template('about.html',
+                           category='about',
+                           slides=slides)
+
+@app.route("/contact")
+def contact():
+    return render_template('contact.html',
+                           category='contact',
+                           slides=slides)
+
 @app.route("/")
 def default():
     return render_template("index.html",
                            category='home',
+                           slides=slides)
+
+@app.route("/open-badge")
+def open_badge():
+    return render_template('badge.html',
+                           category='topic',
+                           slides=slides)
+
+@app.route("/resources")
+def resources():
+    return render_template('resources.html',
+                           category='topic',
                            slides=slides)
 
 def main(dev=False):
