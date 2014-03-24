@@ -8,23 +8,45 @@
  </p>
 </div>
 
+
+
+<div class="row" id="book-sys">
+ <div class="row">
+   <div class="col-md-12">
+     <h2>The Future of the Book</h2>
+     <div class="btn-group">
+      <a class="btn btn-primary" href="#" data-bind="click: showLinearArtifact">Linear Artifact</a>
+      <a class="btn btn-primary" href="#" data-bind="click: publishBook">System</a>
+      <a class="btn btn-primary" href="#">From Artifact to System</a>
+     </div>
+   </div>
+ </div>
+ <div class="row">
+   <div class="col-md-12">
+ 
+   {#<a class="btn btn-warning" href="#feral-ebooks-dlg" data-toggle="modal">Feral Ebooks &amp; Selection</a> #}
+   <div id="book-sys-animation"></div>
+   <p class="lead" data-bind="html: explainText"></p>
+
+  </div>
+</div>
+
+
+<hr>
+
 <div class="row">
- <div class="col-md-6">
-  <h2>Questions about Features &amp; Functions?</h2>
+ 
+ <div class="col-md-12">
+  <h2>Questions about features &amp; functions?</h2>
   <ul>
-   <li>Does it support DRM?</li> 
+   <li>How will the system support different and restricted copyrights?</li> 
    <li><a href="http://www.idpf.org/epub/30/spec/">ePub3</a> streams</li>
    <li>Professional and amateur annotations</li>
-
   </ul>
  </div>
- <div class="col-md-6">
-  <h2>The Future of the Book nanoblock</h2>
-  <strong>Embed nanoblock video</strong>
 
-
- </div>
 </div>
+ 
 
 <div class="row">
   <div class="col-md-12">
@@ -37,4 +59,204 @@
   </div>
 </div>
 
+{% endblock %}
+
+{% block dialogs %}
+<div class="modal fade" id="book-sys-dlg">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">From Artifact to System</h4>
+      </div>
+      <div class="modal-body">
+
+{#       
+      <img src="http://craigmod.com/images/journal/post_artifact/classic_system2.png" 
+           alt="Craig Mod's " style="width: 90%">
+      <img src="http://craigmod.com/images/journal/post_artifact/post-artifact-full-large.png" 
+           style="width: 100%"
+           alt="Craig Mod's Book Post Artifact Graphic">
+      </div>
+#}
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="feral-ebooks-dlg">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Charlie Stross's Feral Ebooks</h4>
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+{% endblock %}
+
+{% block inline_js %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/svg.js/1.0rc3/svg.min.js"></script>
+<script>
+
+
+var BookAsSystemViewModel = function() {
+ var self = this;  
+ self.svgDraw = SVG('book-sys-animation').size('800', '400');
+
+ self.ideaGroup = self.svgDraw.group();
+ self.ideaGroup.add(self.svgDraw.text("Idea").font({ size: 18 }).rotate(-45));
+ self.ideaGroup.add(self.svgDraw.line(10, 48, 10, 90).stroke({ width: 1 })); 
+ self.ideaGroup.y(100);
+ 
+ self.preArtifactSystem = self.svgDraw.group();
+ self.preArtifactSystem.add(self.svgDraw.line(15, 70, 150, 70 ).stroke({ 'dasharray': '5,5', width: 1 }));
+ self.preArtifactSystem.add(self.svgDraw.text("pre-artifact system").font({ size: 16 }).move(15, 72));
+ self.preArtifactSystem.move(self.ideaGroup.x(), self.ideaGroup.y()) 
+
+
+ self.publisher = self.svgDraw.group();
+ self.publisher.add(self.svgDraw.text("publisher").font({ size: 16 }).rotate(45).move(10, 15));
+ self.publisher.add(self.svgDraw.line(45, 60, 45, 140).stroke({ width: 1 }));
+ self.publisher.move(110, 75);
+
+ self.printer = self.svgDraw.group();
+ self.printer.add(self.svgDraw.text("printer").font({ size: 16 }).rotate(45).move(15, 0));
+ self.printer.add(self.svgDraw.line(45, 45, 45, 165).stroke({ width: 1 }));
+ self.printer.move(120, 75);
+
+ self.greatArtifact = self.svgDraw.group();
+ self.greatArtifact.add(self.svgDraw.rect(150, 150).fill({ color: 'rgb(35,31,32)' }));
+ var artifact_label = self.svgDraw.text(function(add) {
+   add.tspan("The Great").newLine()
+   add.tspan("Immutable").newLine()
+   add.tspan("Artifact").newLine()}).font({ size: 18, 'text-transform': 'uppercase' }).fill({ color: 'rgb(255,255,255)' });
+ artifact_label.move(15,30).rotate(-45); 
+ self.greatArtifact.add(artifact_label);
+ self.greatArtifact.move(175, 100);
+
+ var start_x = self.greatArtifact.x() + self.greatArtifact.y();
+
+ self.distributor = self.svgDraw.group();
+ self.distributor.add(self.svgDraw.text("distributor").font({ size: 16 }).move(15, 3).rotate(-45));
+ self.distributor.add(self.svgDraw.line(30, 45, 30, 165).stroke({ width: 1 }));
+ self.distributor.move(305, 75);
+ 
+self.library = self.svgDraw.group();
+ self.library.add(self.svgDraw.text("library").font({ size: 16 }).move(27, 27).rotate(-45));
+ self.library.add(self.svgDraw.line(35, 60, 35, 140).stroke({ width: 1 }));
+ self.library.move(310, 75);
+
+self.pushBook = self.svgDraw.group();
+self.pushBook.add(self.svgDraw.line(0, 10, 100, 10).stroke({ width: 3 }));
+self.pushBook.add(self.svgDraw.polygon('105,10 100,5 100,15').fill({ color: 'rgb(0,0,0)' }).stroke({ width: 2 }));
+self.pushBook.move(350, 160);
+
+self.readers = self.svgDraw.group();
+self.readers.add(self.svgDraw.text("Readers").font({ size: 18, 'text-transform': 'uppercase' }).move(10,10).rotate(-45));
+self.readers.add(self.svgDraw.rect(100, 50).fill('none').stroke({ 'dasharray': '5,5', width: 1 }).move(5,70));
+for(var i=0;i<50;i++) {
+  var rand_x = Math.floor(Math.random()*100);
+  if(rand_x < 5) { rand_x = 5; }
+  var rand_y = Math.floor(Math.random()*50) + 70;
+  if(rand_y > 115) { rand_y = 115; }
+  self.readers.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(rand_x,rand_y));
+}
+self.readers.move(455, 70);
+
+self.lightBlub = self.svgDraw.group();
+self.lightBlub.add(self.svgDraw.image("{{ url_for('static', filename='img/lightblub.png') }}"));
+self.lightBlub.y(250);
+self.lightBlub.hide();
+
+self.manuscript = self.svgDraw.group();
+self.manuscript.add(self.svgDraw.image("{{ url_for('static', filename='img/creative_writing_64x64.png') }}"));
+self.manuscript.move(30, 250);
+self.manuscript.hide();
+
+self.printBook = self.svgDraw.group();
+self.printBook.add(self.svgDraw.image("{{ url_for('static', filename='img/print_book.png') }}"));
+self.printBook.move(260, 200);
+self.printBook.hide();
+
+self.explainText = ko.observable();
+
+self.firstStep = self.svgDraw.group();
+self.firstStep.add(self.ideaGroup);
+self.firstStep.add(self.preArtifactSystem);
+self.notFirstStep = self.svgDraw.group();
+
+self.notFirstStep.add(self.printer);
+self.notFirstStep.add(self.publisher);
+self.notFirstStep.add(self.greatArtifact);
+self.notFirstStep.add(self.distributor);
+self.notFirstStep.add(self.library);
+self.notFirstStep.add(self.pushBook);  
+self.notFirstStep.add(self.readers);  
+
+self.secondStep = self.svgDraw.group();
+//self.secondStep.add(self.printer)
+//self.secondStep.add(self.publisher);
+self.notSecondStep = self.svgDraw.group();
+
+ self.showLinearArtifact = function() {
+  self.notFirstStep.animate().opacity(0.5).scale(0.5, 0.5).after(function() {
+   self.firstStep.move(50,-100);
+   self.firstStep.animate().scale(1.5, 1.5).after(function() {
+    self.lightBlub.scale(0.5, 0.5);
+    self.lightBlub.show();
+    self.lightBlub.animate().scale(1.0,1.0).after(function() {
+     self.explainText("First the author has an idea");
+     self.lightBlub.animate().move(100, 250).after(function() {
+      self.lightBlub.animate().opacity(0.1).after(function() {
+       self.lightBlub.hide();
+       self.manuscript.move(self.lightBlub.x(), self.lightBlub.y());
+       self.manuscript.show();
+       self.manuscript.animate().opacity(1.0).after(function() {
+         self.explainText(" and writes a manuscript, traditionally in isolation");
+         self.manuscript.animate().x(100).after(function() {  
+         });
+     });
+    });
+   });
+  });
+ });
+});
+}
+
+ self.publishBook = function() {
+  self.explainText("");
+  self.firstStep.animate().opacity(0.5).move(0,0).scale(0.5, 0.5).after(function() {
+   self.secondStep.add(self.publisher);
+   self.publisher.animate().scale(2.0, 2.0).opacity(1.0).during(function() {
+     self.manuscript.animate().y(230);
+     self.printer.move(250,75);
+     self.secondStep.add(self.printer);
+     self.printer.animate().scale(2.0, 2.0).after(function() {
+      self.manuscript.front();
+      self.manuscript.animate().x(250).after(function() { 
+        self.manuscript.hide().during(function() {
+         self.printBook.show();
+       });
+      });
+    });
+   });
+  });
+
+ }
+}
+
+var book_sys_view_model =  BookAsSystemViewModel();
+ko.applyBindings(book_sys_view_model, document.getElementById('book-sys'));
+
+</script>
 {% endblock %}
