@@ -14,21 +14,36 @@
  <div class="row">
    <div class="col-md-12">
      <h2>The Future of the Book</h2>
+     <h3>Classic System <span data-bind="text: stepTitle"></span></h3>
      <div class="btn-group">
-      <a class="btn btn-primary" href="#" data-bind="click: showLinearArtifact">Linear Artifact</a>
-      <a class="btn btn-primary" href="#" data-bind="click: publishBook">System</a>
-      <a class="btn btn-primary" href="#">From Artifact to System</a>
+      <a class="btn btn-primary" 
+         href="#"
+         id='slide1' 
+         data-bind="click: showLinearArtifact">1. </a>
+      <a class="btn btn-info" 
+         id="slide2"
+         href="#" data-bind="click: publishBook">2. </a>
+      <a class="btn btn-info"
+         id="slide3" 
+         href="#"
+         data-bind="click: greatImmutableArtifact">3. The Great Immutable Artifact</a>
+       <a class="btn btn-info" 
+         href="#"
+         data-bind="click: distributeAcquire">4. Distribute &amp; Acquire</a>
      </div>
    </div>
  </div>
  <div class="row">
-   <div class="col-md-12">
- 
-   {#<a class="btn btn-warning" href="#feral-ebooks-dlg" data-toggle="modal">Feral Ebooks &amp; Selection</a> #}
-   <div id="book-sys-animation"></div>
-   <p class="lead" data-bind="html: explainText"></p>
-
-  </div>
+   <div class="col-md-8">
+     <div id="book-sys-animation"></div>
+   </div>
+   <div class="col-md-4">
+    <ul data-bind="foreach: explanations">
+     <li class="lead" data-bind="html: paragraph"></li>
+    </ul>
+   {# <p class="lead" data-bind="html: explainText"></p>
+   <a class="btn btn-warning" href="#feral-ebooks-dlg" data-toggle="modal">Feral Ebooks &amp; Selection</a> #}
+    </div>
 </div>
 
 
@@ -111,6 +126,8 @@
 
 var BookAsSystemViewModel = function() {
  var self = this;  
+
+ self.stepTitle = ko.observable();
  self.svgDraw = SVG('book-sys-animation').size('800', '400');
 
  self.ideaGroup = self.svgDraw.group();
@@ -136,12 +153,12 @@ var BookAsSystemViewModel = function() {
 
  self.greatArtifact = self.svgDraw.group();
  self.greatArtifact.add(self.svgDraw.rect(150, 150).fill({ color: 'rgb(35,31,32)' }));
- var artifact_label = self.svgDraw.text(function(add) {
+ self.artifact_label = self.svgDraw.text(function(add) {
    add.tspan("The Great").newLine()
    add.tspan("Immutable").newLine()
    add.tspan("Artifact").newLine()}).font({ size: 18, 'text-transform': 'uppercase' }).fill({ color: 'rgb(255,255,255)' });
- artifact_label.move(15,30).rotate(-45); 
- self.greatArtifact.add(artifact_label);
+ self.artifact_label.move(15,30).rotate(-45); 
+ self.greatArtifact.add(self.artifact_label);
  self.greatArtifact.move(175, 100);
 
  var start_x = self.greatArtifact.x() + self.greatArtifact.y();
@@ -174,7 +191,7 @@ for(var i=0;i<50;i++) {
 self.readers.move(455, 70);
 
 self.lightBlub = self.svgDraw.group();
-self.lightBlub.add(self.svgDraw.image("{{ url_for('static', filename='img/lightblub.png') }}"));
+self.lightBlub.add(self.svgDraw.image("{{ url_for('static', filename='img/idea_64x64.png') }}"));
 self.lightBlub.y(250);
 self.lightBlub.hide();
 
@@ -185,7 +202,7 @@ self.manuscript.hide();
 
 self.printBook = self.svgDraw.group();
 self.printBook.add(self.svgDraw.image("{{ url_for('static', filename='img/print_book.png') }}"));
-self.printBook.move(260, 200);
+self.printBook.move(0, 0);
 self.printBook.hide();
 
 self.explainText = ko.observable();
@@ -203,26 +220,31 @@ self.notFirstStep.add(self.library);
 self.notFirstStep.add(self.pushBook);  
 self.notFirstStep.add(self.readers);  
 
+self.explanations = ko.observableArray();
+
 self.secondStep = self.svgDraw.group();
 //self.secondStep.add(self.printer)
 //self.secondStep.add(self.publisher);
 self.notSecondStep = self.svgDraw.group();
 
+self.thirdStep = self.svgDraw.group();
+
  self.showLinearArtifact = function() {
+  self.stepTitle("1. Author's idea and manuscript");
   self.notFirstStep.animate().opacity(0.5).scale(0.5, 0.5).after(function() {
    self.firstStep.move(50,-100);
    self.firstStep.animate().scale(1.5, 1.5).after(function() {
     self.lightBlub.scale(0.5, 0.5);
     self.lightBlub.show();
     self.lightBlub.animate().scale(1.0,1.0).after(function() {
-     self.explainText("First the author has an idea");
+     self.explanations.push({'paragraph': "The author has an idea"});
      self.lightBlub.animate().move(100, 250).after(function() {
       self.lightBlub.animate().opacity(0.1).after(function() {
        self.lightBlub.hide();
        self.manuscript.move(self.lightBlub.x(), self.lightBlub.y());
        self.manuscript.show();
        self.manuscript.animate().opacity(1.0).after(function() {
-         self.explainText(" and writes a manuscript, traditionally in isolation");
+         self.explanations.push({'paragraph': "The author writes a manuscript, traditionally in isolation"});
          self.manuscript.animate().x(100).after(function() {  
          });
      });
@@ -234,24 +256,55 @@ self.notSecondStep = self.svgDraw.group();
 }
 
  self.publishBook = function() {
-  self.explainText("");
+  self.stepTitle("2. Publishing & Printing");
+  $('#slide1').attr('class', 'btn btn-info disabled');
+  $('#slide2').attr('class', 'btn btn-primary');
+  self.explanations.removeAll();
+  self.explanations.push({'paragraph': 'After receiving the manuscript, the editor and publisher work on a print-ready book'});
+
   self.firstStep.animate().opacity(0.5).move(0,0).scale(0.5, 0.5).after(function() {
-   self.secondStep.add(self.publisher);
-   self.publisher.animate().scale(2.0, 2.0).opacity(1.0).during(function() {
+      self.secondStep.add(self.publisher);
+   self.publisher.animate().scale(2.0, 2.0).opacity(1.0).after(function() {
      self.manuscript.animate().y(230);
      self.printer.move(250,75);
      self.secondStep.add(self.printer);
      self.printer.animate().scale(2.0, 2.0).after(function() {
       self.manuscript.front();
-      self.manuscript.animate().x(250).after(function() { 
-        self.manuscript.hide().during(function() {
-         self.printBook.show();
-       });
+      self.manuscript.animate().x(300).after(function() { 
+        self.manuscript.hide();
+        self.printBook.move(self.manuscript.x(), self.manuscript.y());
+        self.printBook.show().front();
+        self.printBook.animate(5000, '>', 6000).move(self.printBook.x(),
+                                                     self.printBook.y()).after(function() {
+         self.secondStep.hide();
+         self.printBook.add(self.svgDraw.text("now becoming...").font(
+          { size: 32, 
+            'text-transform': 'uppercase' }).move(80,25));
+          self.printBook.animate().x(100);
+          });
+        });
       });
     });
    });
-  });
+ }
 
+ self.greatImmutableArtifact = function() {
+   $('#slide2').attr('class', 'btn btn-info disabled');
+   $('#slide3').attr('class', 'btn btn-primary');
+   self.explanations.removeAll();
+   self.explanations.push({'paragraph': "Craig Mod calls the printed book, the <i>Great Immutable Artifact</i>"});
+   self.printBook.hide();
+      self.thirdStep.add(self.greatArtifact);
+   self.greatArtifact.animate().scale(1.5,1.5).during(function() {
+     self.explanations.push({'paragraph': "A book, once printed, assumes a number of properties libraries are interested in"});
+     self.artifact_label.rotate(0).after(function() {
+     
+     });
+   });
+ }
+
+ self.distributeAcquire = function() {
+   console.log("In distribute and acquire function")
  }
 }
 
