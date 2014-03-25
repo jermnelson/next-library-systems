@@ -6,46 +6,15 @@
  <p class="lead">
    {{ topic.get('description')|safe }}
  </p>
-</div>
-
-
-
-<div class="row" id="book-sys">
- <div class="row">
-   <div class="col-md-12">
-     <h2>The Future of the Book</h2>
-     <h3>Classic System <span data-bind="text: stepTitle"></span></h3>
-     <div class="btn-group">
-      <a class="btn btn-primary" 
-         href="#"
-         id='slide1' 
-         data-bind="click: showLinearArtifact">1. </a>
-      <a class="btn btn-info" 
-         id="slide2"
-         href="#" data-bind="click: publishBook">2. </a>
-      <a class="btn btn-info"
-         id="slide3" 
-         href="#"
-         data-bind="click: greatImmutableArtifact">3. The Great Immutable Artifact</a>
-       <a class="btn btn-info" 
-         href="#"
-         data-bind="click: distributeAcquire">4. Distribute &amp; Acquire</a>
-     </div>
-   </div>
+ <div class="btn-group-vertical btn-group-lg">
+   <a href="#book-sys-dlg" 
+   class="btn btn-warning" 
+   data-toggle="modal">Classic Publishing System for the Book</a>
+   <a href="#book-post-dlg"
+	  class="btn btn-default" 
+      data-toggle="modal">The Book in the Post-Artifact System</a>
  </div>
- <div class="row">
-   <div class="col-md-8">
-     <div id="book-sys-animation"></div>
-   </div>
-   <div class="col-md-4">
-    <ul data-bind="foreach: explanations">
-     <li class="lead" data-bind="html: paragraph"></li>
-    </ul>
-   {# <p class="lead" data-bind="html: explainText"></p>
-   <a class="btn btn-warning" href="#feral-ebooks-dlg" data-toggle="modal">Feral Ebooks &amp; Selection</a> #}
-    </div>
 </div>
-
 
 <hr>
 
@@ -82,34 +51,63 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">From Artifact to System</h4>
+        <h3 class="modal-title">The Future of the Book</h3>
+		<h4 class="modal-title" data-bind="text: stepTitle"></h4>
       </div>
       <div class="modal-body">
-
-{#       
-      <img src="http://craigmod.com/images/journal/post_artifact/classic_system2.png" 
-           alt="Craig Mod's " style="width: 90%">
-      <img src="http://craigmod.com/images/journal/post_artifact/post-artifact-full-large.png" 
-           style="width: 100%"
-           alt="Craig Mod's Book Post Artifact Graphic">
+		<div class="row" id="book-sys">	
+		 <div class="col-md-12">
+		 <div class="btn-group">
+		  <a class="btn btn-primary" 
+			 href="#"
+			 id='slide1' 
+			 data-bind="click: showLinearArtifact">1. </a>
+		  <a class="btn btn-info" 
+			 id="slide2"
+			 href="#" data-bind="click: publishBook">2. </a>
+		  <a class="btn btn-info disabled"
+			 id="slide3" 
+			 href="#"
+			 data-bind="click: greatImmutableArtifact">3. </a>
+		   <a class="btn btn-info disabled" 
+			 href="#"
+			 id="slide4"
+			 data-bind="click: distributeAcquire">4. </a>
+		   <a class="btn btn-info disabled" 
+			 href="#"
+			 id="slide5"
+			 data-bind="click: pushToReaders">5. </a>
+        </div>
       </div>
-#}
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	</div>
+	<div class="row">
+	 <div class="col-md-8">
+	   <div id="book-sys-animation"></div>
+     </div>
+     <div class="col-md-4">
+      <ul data-bind="foreach: explanations">
+       <li class="lead" data-bind="html: paragraph"></li>
+      </ul>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
+    </div>
+   </div>
+   <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+   </div>
+  </div><!-- /.modal-content -->
+ </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div class="modal fade" id="feral-ebooks-dlg">
-  <div class="modal-dialog">
+<div class="modal fade" id="book-post-dlg">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Charlie Stross's Feral Ebooks</h4>
+        <h3 class="modal-title">The Book in the Post-Artifact System</h3>
       </div>
       <div class="modal-body">
         <p>One fine body&hellip;</p>
+		<div id="book-digital-animation"></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -131,7 +129,7 @@ var BookAsSystemViewModel = function() {
  self.svgDraw = SVG('book-sys-animation').size('800', '400');
 
  self.ideaGroup = self.svgDraw.group();
- self.ideaGroup.add(self.svgDraw.text("Idea").font({ size: 18 }).rotate(-45));
+ self.ideaGroup.add(self.svgDraw.text("Idea").font({ size: 18 }).move(-20,20).rotate(-45));
  self.ideaGroup.add(self.svgDraw.line(10, 48, 10, 90).stroke({ width: 1 })); 
  self.ideaGroup.y(100);
  
@@ -157,19 +155,19 @@ var BookAsSystemViewModel = function() {
    add.tspan("The Great").newLine()
    add.tspan("Immutable").newLine()
    add.tspan("Artifact").newLine()}).font({ size: 18, 'text-transform': 'uppercase' }).fill({ color: 'rgb(255,255,255)' });
- self.artifact_label.move(15,30).rotate(-45); 
+ self.artifact_label.move(-40,60).rotate(-45); 
  self.greatArtifact.add(self.artifact_label);
  self.greatArtifact.move(175, 100);
 
  var start_x = self.greatArtifact.x() + self.greatArtifact.y();
 
  self.distributor = self.svgDraw.group();
- self.distributor.add(self.svgDraw.text("distributor").font({ size: 16 }).move(15, 3).rotate(-45));
+ self.distributor.add(self.svgDraw.text("distributor").font({ size: 16 }).move(-5, 35).rotate(-45)); 
  self.distributor.add(self.svgDraw.line(30, 45, 30, 165).stroke({ width: 1 }));
  self.distributor.move(305, 75);
  
 self.library = self.svgDraw.group();
- self.library.add(self.svgDraw.text("library").font({ size: 16 }).move(27, 27).rotate(-45));
+ self.library.add(self.svgDraw.text("library").font({ size: 16 }).move(-10, 60).rotate(-45)); 
  self.library.add(self.svgDraw.line(35, 60, 35, 140).stroke({ width: 1 }));
  self.library.move(310, 75);
 
@@ -179,7 +177,8 @@ self.pushBook.add(self.svgDraw.polygon('105,10 100,5 100,15').fill({ color: 'rgb
 self.pushBook.move(350, 160);
 
 self.readers = self.svgDraw.group();
-self.readers.add(self.svgDraw.text("Readers").font({ size: 18, 'text-transform': 'uppercase' }).move(10,10).rotate(-45));
+self.readersLabel = self.svgDraw.text("Readers").font({ size: 18, 'text-transform': 'uppercase' }).move(-15,40).rotate(-45);
+self.readers.add(self.readersLabel); 
 self.readers.add(self.svgDraw.rect(100, 50).fill('none').stroke({ 'dasharray': '5,5', width: 1 }).move(5,70));
 for(var i=0;i<50;i++) {
   var rand_x = Math.floor(Math.random()*100);
@@ -192,7 +191,7 @@ self.readers.move(455, 70);
 
 self.lightBlub = self.svgDraw.group();
 self.lightBlub.add(self.svgDraw.image("{{ url_for('static', filename='img/idea_64x64.png') }}"));
-self.lightBlub.y(250);
+self.lightBlub.move(450, 10);
 self.lightBlub.hide();
 
 self.manuscript = self.svgDraw.group();
@@ -229,6 +228,13 @@ self.notSecondStep = self.svgDraw.group();
 
 self.thirdStep = self.svgDraw.group();
 
+self.time = self.svgDraw.group();
+self.time.add(self.svgDraw.text("Time").font({ size: 18,
+		  									    'text-transform': 'uppercase'}).fill('rgb(0,0,255)'));
+self.time.add(self.svgDraw.line(45, 15, 550, 15).stroke({ width: 3, color: 'rgb(0,0,255)'}));
+self.time.add(self.svgDraw.polygon("545,10 545,20 550,15").fill({ color: 'rgb(0,0,255)' }).stroke({ width: 2, color: 'rgb(0,0,255)' }));
+self.time.move(10, 320);
+
  self.showLinearArtifact = function() {
   self.stepTitle("1. Author's idea and manuscript");
   self.notFirstStep.animate().opacity(0.5).scale(0.5, 0.5).after(function() {
@@ -238,7 +244,7 @@ self.thirdStep = self.svgDraw.group();
     self.lightBlub.show();
     self.lightBlub.animate().scale(1.0,1.0).after(function() {
      self.explanations.push({'paragraph': "The author has an idea"});
-     self.lightBlub.animate().move(100, 250).after(function() {
+     self.lightBlub.animate().y(250).after(function() {
       self.lightBlub.animate().opacity(0.1).after(function() {
        self.lightBlub.hide();
        self.manuscript.move(self.lightBlub.x(), self.lightBlub.y());
@@ -255,10 +261,12 @@ self.thirdStep = self.svgDraw.group();
 });
 }
 
+
  self.publishBook = function() {
   self.stepTitle("2. Publishing & Printing");
   $('#slide1').attr('class', 'btn btn-info disabled');
   $('#slide2').attr('class', 'btn btn-primary');
+  $('#slide3').attr('class', 'btn btn-info');
   self.explanations.removeAll();
   self.explanations.push({'paragraph': 'After receiving the manuscript, the editor and publisher work on a print-ready book'});
 
@@ -274,14 +282,17 @@ self.thirdStep = self.svgDraw.group();
         self.manuscript.hide();
         self.printBook.move(self.manuscript.x(), self.manuscript.y());
         self.printBook.show().front();
-        self.printBook.animate(5000, '>', 6000).move(self.printBook.x(),
+        self.printBook.animate(2000, '>', 6000).move(self.printBook.x(),
                                                      self.printBook.y()).after(function() {
-         self.secondStep.hide();
-         self.printBook.add(self.svgDraw.text("now becoming...").font(
-          { size: 32, 
-            'text-transform': 'uppercase' }).move(80,25));
-          self.printBook.animate().x(100);
-          });
+         self.publisher.animate().opacity(0.5).scale(0.5, 0.5).move(55, 40).after(function() {
+		  self.printer.animate().opacity(0.5).scale(0.5, 0.5).move(60, 40).after(function() {
+		    self.printBook.add(self.svgDraw.text("now becoming...").font(
+            { size: 32, 
+              'text-transform': 'uppercase' }).move(80,25));
+              self.printBook.animate().x(100);
+            });
+		  });
+		 });
         });
       });
     });
@@ -289,27 +300,214 @@ self.thirdStep = self.svgDraw.group();
  }
 
  self.greatImmutableArtifact = function() {
+   self.stepTitle("3. The Great Immutable Artifact");
    $('#slide2').attr('class', 'btn btn-info disabled');
    $('#slide3').attr('class', 'btn btn-primary');
    self.explanations.removeAll();
    self.explanations.push({'paragraph': "Craig Mod calls the printed book, the <i>Great Immutable Artifact</i>"});
    self.printBook.hide();
-      self.thirdStep.add(self.greatArtifact);
-   self.greatArtifact.animate().scale(1.5,1.5).during(function() {
+   self.thirdStep.add(self.greatArtifact);
+   self.greatArtifact.animate().scale(1.5,1.5).after(function() {
      self.explanations.push({'paragraph': "A book, once printed, assumes a number of properties libraries are interested in"});
-     self.artifact_label.rotate(0).after(function() {
-     
+     self.artifact_label.animate().move(5,5).rotate(0).after(function() {
+	   self.greatArtifact.add(self.svgDraw.image("{{ url_for('static', filename='img/print_book.png') }}").scale(0.75, 0.75).move(50, 70));
+		self.explanations.push({'paragraph': "RDA properties like ISBN, page numbers, illustrations"});
+	   $('#slide4').attr('class', 'btn btn-info');
      });
    });
  }
 
  self.distributeAcquire = function() {
-   console.log("In distribute and acquire function")
+   self.stepTitle("4. Distribution & Acquisition");
+   
+   $('#slide3').attr('class', 'btn btn-info disabled');
+   $('#slide4').attr('class', 'btn btn-primary');
+   $('#slide5').attr('class', 'btn btn-info');
+   self.explanations.removeAll();
+   self.forthStep = self.svgDraw.group();   
+   
+   self.greatArtifact.animate().opacity(0.5).scale(0.5, 0.5).move(90,45).after(function() {
+     self.explanations.push({"paragraph": "After publication, the book is marketed by publisher"});
+	 self.forthStep.add(self.distributor);
+	 self.distributor.animate().scale(2.0, 2.0).opacity(1.0).x(100).after(function() {
+	  var book_image = self.svgDraw.image("{{ url_for('static', filename='img/print_book.png') }}").scale(0.75, 0.75).hide().move(50, 200);
+	  book_image.show();
+	  self.forthStep.add(self.library);
+	  self.library.animate().scale(2.0, 2.0).opacity(1.0).x(200).after(function() {
+	   book_image.animate().x(200).after(function() {
+	    self.explanations.push({"paragraph": "The publisher sends the Book to the distributor"}); 
+	     book_image.animate().x(250).after(function() {
+		  self.forthStep.add(book_image);
+	      self.explanations.push({"paragraph": "The Library acquires the book, either through patron demand or collection policies"});
+	   });
+	  });
+	 });
+	});
+   });
+   
+ }
+ 
+ self.pushToReaders = function() {
+   self.forthStep.hide();
+   self.stepTitle("5. Push Book to Readers");
+   $('#slide4').attr('class', 'btn btn-info disabled');
+   $('#slide5').attr('class', 'btn btn-primary');
+   self.explanations.removeAll();
+   self.explanations.push({'paragraph': "Book is made available to patrons after shelving in the library's stacks"});
+   self.fifthStep = self.svgDraw.group()
+   self.fifthStep.add(self.readers);
+   self.readersLabel.rotate(0);
+   self.readers.animate().scale(2.0, 2.0).move(300, 20).after(function() { 
+      self.explanations.push({'paragraph': "Reader finds Book through the library's catalog or requests Book from collection"});
+   });
  }
 }
 
+var BookPostArtifactSystemModel = function() {
+ var self = this;
+  
+ self.svgDraw = SVG('book-digital-animation').size('1000', '600');
+
+ self.ideaGroup = self.svgDraw.group();
+ self.ideaGroup.add(self.svgDraw.text("Idea").font({ size: 18 }).move(-20,20).rotate(-45));
+ self.ideaGroup.add(self.svgDraw.line(10, 48, 10, 90).stroke({ width: 1 })); 
+ self.ideaGroup.y(200);
+ 
+ self.preArtifactSystem = self.svgDraw.group();
+ self.preArtifactSystem.add(self.svgDraw.line(15, 70, 155, 70 ).stroke({ 'dasharray': '5,5', width: 1 }));
+ self.preArtifactSystem.add(self.svgDraw.text("pre-artifact system").font({ size: 16 }).move(15, 70));
+ var rightArrow = self.svgDraw.group();
+ rightArrow.add(self.svgDraw.polygon('118,25 125,20 118,18').fill({ color: 'rgb(0,0,0)' }).stroke({ width: 2 }));
+ rightArrow.add(self.svgDraw.line(120, 20, 150, 65).stroke({ width: 3 }));
+ //rightArrow.animate().move(rightArrow.x()-2, rightArrow.y()-2).loop();
+ self.preArtifactSystem.add(rightArrow);
+ self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(60, 5));
+ self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(50, 8));
+ self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(55, 15));
+ self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(65, 0));
+ self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(75, 25));
+ self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(75, -5));
+ self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(85, 10));
+ self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(90, -10));
+ self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(95, -1));
+ self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(92, 20));
+ self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(110, 2));
+ var leftArrow = self.svgDraw.group();
+ leftArrow.add(self.svgDraw.polygon('40,63 30,65 32,55').fill({ color: 'rgb(0,0,0)' }).stroke({ width: 2 }));
+ leftArrow.add(self.svgDraw.line(35, 60, 65, 20).stroke({ width: 3 }));
+ //leftArrow.animate().move(leftArrow.x()-1, leftArrow.y()-2).loop();
+ self.preArtifactSystem.add(leftArrow);
+ self.preArtifactSystem.move(self.ideaGroup.x(), self.ideaGroup.y()) 
+ 
+ self.publisher_author = self.svgDraw.group();
+ self.publisher_author.add(self.svgDraw.line(155, 40, 155, 150).stroke({ width: 1 }));
+ self.publisher_author.add(self.svgDraw.text("publisher / author").font({ size: 14 }).move(50,-50).rotate(25));
+ self.publisher_author.y(160);
+ 
+ self.print = self.svgDraw.group();
+ self.print.add(self.svgDraw.line(155, 70, 300, -30).stroke({ 'dasharray': '5,5', width: 1 }));
+ self.print.add(self.svgDraw.text("Print").font({ size: 16, 
+                                                  'text-transform': 'uppercase' }).rotate(-35).move(100,125));
+ self.print.y(200);
+ 
+ self.digital = self.svgDraw.group();
+ self.digital.add(self.svgDraw.line(155, 70, 250, 130).stroke({ 'dasharray': '5,5', width: 1 }));
+ self.digital.add(self.svgDraw.text("Digital").font({ size: 16, 
+                                                    'text-transform': 'uppercase' }).rotate(34).move(180, -35));
+ self.digital.y(200);
+ 
+ self.immutableArtifact = self.svgDraw.group();
+ self.immutableArtifact.add(self.svgDraw.rect(150, 150).fill({ color: 'rgb(35,31,32)' }));
+ self.artifact_label = self.svgDraw.text(function(add) {
+   add.tspan("The ")
+   add.tspan("Great").fill('rgb(128,128,128)').attr({ 'text-decoration': 'line-through'}).newLine()
+   add.tspan("Immutable").newLine()
+   add.tspan("Artifact").newLine()}).font({ size: 18, 'text-transform': 'uppercase' }).fill({ color: 'rgb(255,255,255)' });
+ self.artifact_label.move(-40,60).rotate(-45); 
+ self.immutableArtifact.add(self.artifact_label);
+ self.immutableArtifact.scale(0.85, 0.85).move(310, 100);
+ 
+ self.printer = self.svgDraw.group();
+ self.printer.add(self.svgDraw.text("printer").font({ size: 16 }).rotate(35).move(20, -10));
+ self.printer.add(self.svgDraw.line(45, 45, 45, 145).stroke({ width: 1 }));
+ self.printer.move(255, 75);
+ 
+ self.distributionChannels = self.svgDraw.group();
+ self.distributionChannels.add(self.svgDraw.text(function(add) {
+   add.tspan("distributor,").newLine()
+   add.tspan("author homepage,").newLine()
+   add.tspan("amazon, etc").newLine()}).font({ size: 16 }).rotate(-35).y(80));
+ self.distributionChannels.add(self.svgDraw.line(85, 110, 85, 210).stroke({ width: 1 }));
+ self.distributionChannels.x(360) 
+ 
+ self.digitalArtifact = self.svgDraw.group();
+ self.digitalArtifact.add(self.svgDraw.text(function(add) {
+    add.tspan("Digital").newLine()
+ 	add.tspan("Artifact").newLine()}).font({ size: 16,
+	                                         weight: 'bold',
+		  									 'text-transform': 'uppercase'}).rotate(-35));
+ self.digitalArtifact.add(self.svgDraw.line(15, 20, 15, 120).stroke({ width: 3 }));
+ self.digitalArtifact.move(240, 260);
+ 
+ self.postArtifactSystem = self.svgDraw.group();
+ self.postArtifactSystem.add(self.svgDraw.line(0, 15, 25, 15).stroke({ width: 2, color: "rgb(255,0,0)" }));
+ self.postArtifactSystem.add(self.svgDraw.line(20, 10, 25, 15).stroke({ width: 2, color: "rgb(255,0,0)" }));
+ self.postArtifactSystem.add(self.svgDraw.line(20, 20, 25, 15).stroke({ width: 2, color: "rgb(255,0,0)" }));
+ self.postArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(25, 10));
+ self.postArtifactSystem.add(self.svgDraw.line(30, 0, 30, 100).stroke({ width: 2,
+																		color: "rgb(255,0,0)",
+																		'dasharray': '2,2'}));
+ self.postArtifactSystem.add(self.svgDraw.line(30, 30, 45, 30).stroke({ width: 2, color: "rgb(255,0,0)" }));
+ self.postArtifactSystem.add(self.svgDraw.line(40, 25, 45, 30).stroke({ width: 2, color: "rgb(255,0,0)" }));
+ self.postArtifactSystem.add(self.svgDraw.line(40, 35, 45, 30).stroke({ width: 2, color: "rgb(255,0,0)" }));
+ self.postArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(45, 25));  
+ self.postArtifactSystem.add(self.svgDraw.line(50, 0, 50, 100).stroke({ width: 2,
+																		color: "rgb(255,0,0)",
+																		'dasharray': '2,2'})); 
+ self.postArtifactSystem.add(self.svgDraw.line(50, 45, 90, 45).stroke({ width: 2, color: "rgb(255,0,0)" }));
+ self.postArtifactSystem.add(self.svgDraw.line(85, 40, 90, 45).stroke({ width: 2, color: "rgb(255,0,0)" }));
+ self.postArtifactSystem.add(self.svgDraw.line(85, 50, 90, 45).stroke({ width: 2, color: "rgb(255,0,0)" }));
+ self.postArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(90, 40));  
+ self.postArtifactSystem.add(self.svgDraw.line(95, 0, 95, 100).stroke({ width: 2,
+																		color: "rgb(255,0,0)",
+																		'dasharray': '2,2'})); 
+ self.postArtifactSystem.add(self.svgDraw.line(95, 60, 150, 60).stroke({ width: 2, color: "rgb(255,0,0)" }));
+ self.postArtifactSystem.add(self.svgDraw.line(145, 55, 150, 60).stroke({ width: 2, color: "rgb(255,0,0)" }));
+ self.postArtifactSystem.add(self.svgDraw.line(145, 65, 150, 60).stroke({ width: 2, color: "rgb(255,0,0)" }));
+ self.postArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(150, 55));  
+ self.postArtifactSystem.add(self.svgDraw.line(155, 0, 155, 100).stroke({ width: 2,
+																		color: "rgb(255,0,0)",
+																		'dasharray': '2,2'}));
+ self.postArtifactSystem.add(self.svgDraw.line(155, 20, 170, 20).stroke({ width: 2, color: "rgb(255,0,0)" }));
+ self.postArtifactSystem.add(self.svgDraw.line(165, 15, 170, 20).stroke({ width: 2, color: "rgb(255,0,0)" }));
+ self.postArtifactSystem.add(self.svgDraw.line(165, 25, 170, 20).stroke({ width: 2, color: "rgb(255,0,0)" }));
+ self.postArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(170, 15));  
+ self.postArtifactSystem.add(self.svgDraw.line(175, 0, 175, 100).stroke({ width: 2,
+																		color: "rgb(255,0,0)",
+																		'dasharray': '2,2'}));
+ self.postArtifactSystem.add(self.svgDraw.line(175, 85, 320, 85).stroke({ width: 2, color: "rgb(255,0,0)" }));
+ self.postArtifactSystem.add(self.svgDraw.line(315, 80, 320, 85).stroke({ width: 2, color: "rgb(255,0,0)" }));
+ self.postArtifactSystem.add(self.svgDraw.line(315, 90, 320, 85).stroke({ width: 2, color: "rgb(255,0,0)" }));
+ self.postArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(320, 80));  
+ self.postArtifactSystem.add(self.svgDraw.line(325, 0, 325, 100).stroke({ width: 2,
+																		color: "rgb(255,0,0)",
+																		'dasharray': '2,2'}));
+ self.postArtifactSystem.move(255, 280); 
+ 
+ self.time = self.svgDraw.group();
+ self.time.add(self.svgDraw.text("Time").font({ size: 18,
+		  									    'text-transform': 'uppercase'}).fill('rgb(0,0,255)'));
+ self.time.add(self.svgDraw.line(45, 15, 550, 15).stroke({ width: 3, color: 'rgb(0,0,255)'}));
+ self.time.add(self.svgDraw.polygon("545,10 545,20 550,15").fill({ color: 'rgb(0,0,255)' }).stroke({ width: 2, color: 'rgb(0,0,255)' }));
+ self.time.move(10, 420);
+ 
+ 
+}
+
 var book_sys_view_model =  BookAsSystemViewModel();
-ko.applyBindings(book_sys_view_model, document.getElementById('book-sys'));
+var book_digital_view_model = BookPostArtifactSystemModel();
+ko.applyBindings(book_sys_view_model, document.getElementById('book-sys-dlg'));
+ko.applyBindings(book_digital_view_model, document.getElementById('book-post-dlg'));
 
 </script>
 {% endblock %}
