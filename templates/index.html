@@ -22,47 +22,34 @@
   <h3>Jeremy Nelson</h3>
   <p class="lead">
    What questions should we be asking about the features and functionality of future 
-   library systems? I will be exploring six areas that offer different questions we 
-   can ask about.
-
-  </p>
-  <p><a class="btn btn-lg btn-success" href="/our-future-tracks-the-book.html" role="button">
-     Our Future tracks the Book <span class="glyphicon glyphicon-chevron-right"></span></a>
+   library systems? Today we will explore three areas that may prompt us to ask different 
+   questions about what we should expect from our future library systems.
   </p>
 </div>
 
-<div class="row marketing">
- 
- {% for column in slides.items()|slice(2) %}
-  {% for row in column %}
-  <div class="col-lg-6">
-  <h4>{{ row[1]['label']|safe }}</h4>
-  <p>{{ row[1]['description']|safe }}</p>
-  <div class="btn-group">
-    {% if not loop.first %}
-    <a href="{{ slides.items()[loop.index0-1][0] }}.html"
-       class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span></a>
-    {% endif %}
-    <a href="{{ row[0] }}.html" class="btn btn-default"><span class="glyphicon glyphicon-globe"></span></a>
-    {% if not loop.last %}
-    <a href="{{ slides.items()[loop.index0+1][0] }}.html"
-     class="btn btn-default"><span class="glyphicon glyphicon-chevron-right"></span></a>
-
-    {% endif %}
-  </div>
-  <p>&nbsp;</p>
-  </div>
-  {% endfor %}
- {% endfor %}
- 
-{# 
- <div class="col-lg-6">
- {% for value in slides.values()[3:] %}
-  <h4>{{ value }}</h4>
-  <p></p>
- {% endfor %}
-  </div> #}
+<a href="{{ url_for('slide', slide='our-future-tracks-the-book') }}">
+<div class="alert alert-warning">
+  <h1>Our Future tracks the book</h1>
+  <p class="lead">While libraries pre-date the book, for the past few
+    centuries as the central repository of monographs for our communities
+    dominated our identity. Just in the past ten years has the book started to
+    shifting to new, more online forms that split the content from the print
+    format.
+  </p>
 </div>
+</a>
+
+<div class="alert alert-info">
+  <h1>Discovery happens elsewhere &hellip;</h1>
+  <h1>&hellip; but local is needed more than ever</h1>
+
+</div>
+
+<div class="alert alert-success">
+  <h1>Beyond Mobile -- Heads ups to Augmented Services</h1>
+
+</div>
+
 
 <div class="well">
   <p>

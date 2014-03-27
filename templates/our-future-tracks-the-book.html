@@ -55,29 +55,24 @@
 		<h4 class="modal-title" data-bind="text: stepTitle"></h4>
       </div>
       <div class="modal-body">
-		<div class="row" id="book-sys">	
-		 <div class="col-md-12">
-		 <div class="btn-group">
-		  <a class="btn btn-primary" 
-			 href="#"
-			 id='slide1' 
-			 data-bind="click: showLinearArtifact">1. </a>
-		  <a class="btn btn-info" 
-			 id="slide2"
-			 href="#" data-bind="click: publishBook">2. </a>
-		  <a class="btn btn-info disabled"
-			 id="slide3" 
-			 href="#"
-			 data-bind="click: greatImmutableArtifact">3. </a>
-		   <a class="btn btn-info disabled" 
-			 href="#"
-			 id="slide4"
-			 data-bind="click: distributeAcquire">4. </a>
-		   <a class="btn btn-info disabled" 
-			 href="#"
-			 id="slide5"
-			 data-bind="click: pushToReaders">5. </a>
-        </div>
+	   <div class="row">
+	     <div class="col-md-12">
+          <div class="btn-group">
+		   <a href="#" 
+		      class="btn-primary btn"
+			  data-bind="attr: { class: backIsActive }, 
+			             click: backOne"><span class="glyphicon glyphicon-step-backward"></span></a>
+						 
+		   <a href="#"
+		      class="btn-primary btn"
+			  data-bind="click: initSVG"><span class="glyphicon glyphicon-refresh"></span></a>
+		   <a href="#" 
+		      class="btn-primary btn"
+			  data-bind="click: forwardOne,
+			             attr: { class: fowardIsActive }"><span class="glyphicon glyphicon-step-forward"></span></a>
+		  </div>
+		<div id="book-digital-animation"></div>
+        </div>	
       </div>
 	</div>
 	<div class="row">
@@ -94,6 +89,7 @@
    <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
    </div>
+  </div> 
   </div><!-- /.modal-content -->
  </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -106,7 +102,17 @@
         <h3 class="modal-title">The Book in the Post-Artifact System</h3>
       </div>
       <div class="modal-body">
-        <p>One fine body&hellip;</p>
+        <div class="btn-group">
+		 <a href="#" 
+		    class="btn-primary btn disabled"
+			><span class="glyphicon glyphicon-step-backward"></span></a>
+		 <a href="#" 
+		    class="btn-primary btn"
+			><span class="glyphicon glyphicon-play"></span></a>
+		 <a href="#" 
+		    class="btn-primary btn"
+			><span class="glyphicon glyphicon-step-forward"></span></a>
+		</div>
 		<div id="book-digital-animation"></div>
       </div>
       <div class="modal-footer">
@@ -121,119 +127,148 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/svg.js/1.0rc3/svg.min.js"></script>
 <script>
 
+var AnimationControls = function(steps){
+  var self = this;
+  self.current_step = 0;
+  self.steps = steps;
+  
+  self.backStep = function() {
+    self.steps[self.current_step]();
+    if(self.current_step <= 0) {
+	  self.current_step=0;
+    } else {
+	  self.current_step -= 1;
+	}
+  }
+  
+  self.forwardStep = function() {
+    self.steps[self.current_step]();
+    if(self.current_step >= self.steps.length) {
+	  self.current_step = self.steps.length -1;
+	} else {
+	  self.current_step += 1;
+	}
+  }
+}
+
 
 var BookAsSystemViewModel = function() {
  var self = this;  
-
  self.stepTitle = ko.observable();
- self.svgDraw = SVG('book-sys-animation').size('800', '400');
-
- self.ideaGroup = self.svgDraw.group();
- self.ideaGroup.add(self.svgDraw.text("Idea").font({ size: 18 }).move(-20,20).rotate(-45));
- self.ideaGroup.add(self.svgDraw.line(10, 48, 10, 90).stroke({ width: 1 })); 
- self.ideaGroup.y(100);
  
- self.preArtifactSystem = self.svgDraw.group();
- self.preArtifactSystem.add(self.svgDraw.line(15, 70, 150, 70 ).stroke({ 'dasharray': '5,5', width: 1 }));
- self.preArtifactSystem.add(self.svgDraw.text("pre-artifact system").font({ size: 16 }).move(15, 72));
- self.preArtifactSystem.move(self.ideaGroup.x(), self.ideaGroup.y()) 
+ self.initSVG = function() { 
+   
+	 self.svgDraw = SVG('book-sys-animation').size('800', '400');
+	 
+	 self.ideaGroup = self.svgDraw.group();
+	 self.ideaGroup.add(self.svgDraw.text("Idea").font({ size: 18 }).move(-20,20).rotate(-45));
+	 self.ideaGroup.add(self.svgDraw.line(10, 48, 10, 90).stroke({ width: 1 })); 
+	 self.ideaGroup.y(100);
+	 
+	 self.preArtifactSystem = self.svgDraw.group();
+	 self.preArtifactSystem.add(self.svgDraw.line(15, 70, 150, 70 ).stroke({ 'dasharray': '5,5', width: 1 }));
+	 self.preArtifactSystem.add(self.svgDraw.text("pre-artifact system").font({ size: 16 }).move(15, 72));
+	 self.preArtifactSystem.move(self.ideaGroup.x(), self.ideaGroup.y()) 
 
 
- self.publisher = self.svgDraw.group();
- self.publisher.add(self.svgDraw.text("publisher").font({ size: 16 }).rotate(45).move(10, 15));
- self.publisher.add(self.svgDraw.line(45, 60, 45, 140).stroke({ width: 1 }));
- self.publisher.move(110, 75);
+	 self.publisher = self.svgDraw.group();
+	 self.publisher.add(self.svgDraw.text("publisher").font({ size: 16 }).rotate(45).move(10, 15));
+	 self.publisher.add(self.svgDraw.line(45, 60, 45, 140).stroke({ width: 1 }));
+	 self.publisher.move(110, 75);
 
- self.printer = self.svgDraw.group();
- self.printer.add(self.svgDraw.text("printer").font({ size: 16 }).rotate(45).move(15, 0));
- self.printer.add(self.svgDraw.line(45, 45, 45, 165).stroke({ width: 1 }));
- self.printer.move(120, 75);
+	 self.printer = self.svgDraw.group();
+	 self.printer.add(self.svgDraw.text("printer").font({ size: 16 }).rotate(45).move(15, 0));
+	 self.printer.add(self.svgDraw.line(45, 45, 45, 165).stroke({ width: 1 }));
+	 self.printer.move(120, 75);
 
- self.greatArtifact = self.svgDraw.group();
- self.greatArtifact.add(self.svgDraw.rect(150, 150).fill({ color: 'rgb(35,31,32)' }));
- self.artifact_label = self.svgDraw.text(function(add) {
-   add.tspan("The Great").newLine()
-   add.tspan("Immutable").newLine()
-   add.tspan("Artifact").newLine()}).font({ size: 18, 'text-transform': 'uppercase' }).fill({ color: 'rgb(255,255,255)' });
- self.artifact_label.move(-40,60).rotate(-45); 
- self.greatArtifact.add(self.artifact_label);
- self.greatArtifact.move(175, 100);
+	 self.greatArtifact = self.svgDraw.group();
+	 self.greatArtifact.add(self.svgDraw.rect(150, 150).fill({ color: 'rgb(35,31,32)' }));
+	 self.artifact_label = self.svgDraw.text(function(add) {
+	   add.tspan("The Great").newLine()
+	   add.tspan("Immutable").newLine()
+	   add.tspan("Artifact").newLine()}).font({ size: 18, 'text-transform': 'uppercase' }).fill({ color: 'rgb(255,255,255)' });
+	 self.artifact_label.move(-35,60).rotate(-45); 
+	 self.greatArtifact.add(self.artifact_label);
+	 self.greatArtifact.move(175, 100);
 
- var start_x = self.greatArtifact.x() + self.greatArtifact.y();
+	 var start_x = self.greatArtifact.x() + self.greatArtifact.y();
 
- self.distributor = self.svgDraw.group();
- self.distributor.add(self.svgDraw.text("distributor").font({ size: 16 }).move(-5, 35).rotate(-45)); 
- self.distributor.add(self.svgDraw.line(30, 45, 30, 165).stroke({ width: 1 }));
- self.distributor.move(305, 75);
- 
-self.library = self.svgDraw.group();
- self.library.add(self.svgDraw.text("library").font({ size: 16 }).move(-10, 60).rotate(-45)); 
- self.library.add(self.svgDraw.line(35, 60, 35, 140).stroke({ width: 1 }));
- self.library.move(310, 75);
+	 self.distributor = self.svgDraw.group();
+	 self.distributor.add(self.svgDraw.text("distributor").font({ size: 16 }).move(-5, 35).rotate(-45)); 
+	 self.distributor.add(self.svgDraw.line(30, 45, 30, 165).stroke({ width: 1 }));
+	 self.distributor.move(305, 75);
+	 
+	self.library = self.svgDraw.group();
+	 self.library.add(self.svgDraw.text("library").font({ size: 16 }).move(-10, 60).rotate(-45)); 
+	 self.library.add(self.svgDraw.line(35, 60, 35, 140).stroke({ width: 1 }));
+	 self.library.move(310, 75);
 
-self.pushBook = self.svgDraw.group();
-self.pushBook.add(self.svgDraw.line(0, 10, 100, 10).stroke({ width: 3 }));
-self.pushBook.add(self.svgDraw.polygon('105,10 100,5 100,15').fill({ color: 'rgb(0,0,0)' }).stroke({ width: 2 }));
-self.pushBook.move(350, 160);
+	self.pushBook = self.svgDraw.group();
+	self.pushBook.add(self.svgDraw.line(0, 10, 100, 10).stroke({ width: 3 }));
+	self.pushBook.add(self.svgDraw.polygon('105,10 100,5 100,15').fill({ color: 'rgb(0,0,0)' }).stroke({ width: 2 }));
+	self.pushBook.move(350, 160);
 
-self.readers = self.svgDraw.group();
-self.readersLabel = self.svgDraw.text("Readers").font({ size: 18, 'text-transform': 'uppercase' }).move(-15,40).rotate(-45);
-self.readers.add(self.readersLabel); 
-self.readers.add(self.svgDraw.rect(100, 50).fill('none').stroke({ 'dasharray': '5,5', width: 1 }).move(5,70));
-for(var i=0;i<50;i++) {
-  var rand_x = Math.floor(Math.random()*100);
-  if(rand_x < 5) { rand_x = 5; }
-  var rand_y = Math.floor(Math.random()*50) + 70;
-  if(rand_y > 115) { rand_y = 115; }
-  self.readers.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(rand_x,rand_y));
+	self.readers = self.svgDraw.group();
+	self.readersLabel = self.svgDraw.text("Readers").font({ size: 18, 'text-transform': 'uppercase' }).move(-15,40).rotate(-45);
+	self.readers.add(self.readersLabel); 
+	self.readers.add(self.svgDraw.rect(100, 50).fill('none').stroke({ 'dasharray': '5,5', width: 1 }).move(5,70));
+	for(var i=0;i<50;i++) {
+	  var rand_x = Math.floor(Math.random()*100);
+	  if(rand_x < 5) { rand_x = 5; }
+	  var rand_y = Math.floor(Math.random()*50) + 70;
+	  if(rand_y > 115) { rand_y = 115; }
+	  self.readers.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(rand_x,rand_y));
+	}
+	self.readers.move(455, 70);
+
+	self.lightBlub = self.svgDraw.group();
+	self.lightBlub.add(self.svgDraw.image("{{ url_for('static', filename='img/idea_64x64.png') }}"));
+	self.lightBlub.move(450, 10);
+	self.lightBlub.hide();
+
+	self.manuscript = self.svgDraw.group();
+	self.manuscript.add(self.svgDraw.image("{{ url_for('static', filename='img/creative_writing_64x64.png') }}"));
+	self.manuscript.move(30, 250);
+	self.manuscript.hide();
+
+	self.printBook = self.svgDraw.group();
+	self.printBook.add(self.svgDraw.image("{{ url_for('static', filename='img/print_book.png') }}"));
+	self.printBook.move(0, 0);
+	self.printBook.hide();
+
+	self.explainText = ko.observable();
+
+	self.firstStep = self.svgDraw.group();
+	self.firstStep.add(self.ideaGroup);
+	self.firstStep.add(self.preArtifactSystem);
+	self.notFirstStep = self.svgDraw.group();
+
+	self.notFirstStep.add(self.printer);
+	self.notFirstStep.add(self.publisher);
+	self.notFirstStep.add(self.greatArtifact);
+	self.notFirstStep.add(self.distributor);
+	self.notFirstStep.add(self.library);
+	self.notFirstStep.add(self.pushBook);  
+	self.notFirstStep.add(self.readers);  
+
+	self.explanations = ko.observableArray();
+
+	self.secondStep = self.svgDraw.group();
+	//self.secondStep.add(self.printer)
+	//self.secondStep.add(self.publisher);
+	self.notSecondStep = self.svgDraw.group();
+
+	self.thirdStep = self.svgDraw.group();
+
+	self.time = self.svgDraw.group();
+	self.time.add(self.svgDraw.text("Time").font({ size: 18,
+													'text-transform': 'uppercase'}).fill('rgb(0,0,255)'));
+	self.time.add(self.svgDraw.line(45, 15, 550, 15).stroke({ width: 3, color: 'rgb(0,0,255)'}));
+	self.time.add(self.svgDraw.polygon("545,10 545,20 550,15").fill({ color: 'rgb(0,0,255)' }).stroke({ width: 2, color: 'rgb(0,0,255)' }));
+	self.time.move(10, 350);
 }
-self.readers.move(455, 70);
 
-self.lightBlub = self.svgDraw.group();
-self.lightBlub.add(self.svgDraw.image("{{ url_for('static', filename='img/idea_64x64.png') }}"));
-self.lightBlub.move(450, 10);
-self.lightBlub.hide();
-
-self.manuscript = self.svgDraw.group();
-self.manuscript.add(self.svgDraw.image("{{ url_for('static', filename='img/creative_writing_64x64.png') }}"));
-self.manuscript.move(30, 250);
-self.manuscript.hide();
-
-self.printBook = self.svgDraw.group();
-self.printBook.add(self.svgDraw.image("{{ url_for('static', filename='img/print_book.png') }}"));
-self.printBook.move(0, 0);
-self.printBook.hide();
-
-self.explainText = ko.observable();
-
-self.firstStep = self.svgDraw.group();
-self.firstStep.add(self.ideaGroup);
-self.firstStep.add(self.preArtifactSystem);
-self.notFirstStep = self.svgDraw.group();
-
-self.notFirstStep.add(self.printer);
-self.notFirstStep.add(self.publisher);
-self.notFirstStep.add(self.greatArtifact);
-self.notFirstStep.add(self.distributor);
-self.notFirstStep.add(self.library);
-self.notFirstStep.add(self.pushBook);  
-self.notFirstStep.add(self.readers);  
-
-self.explanations = ko.observableArray();
-
-self.secondStep = self.svgDraw.group();
-//self.secondStep.add(self.printer)
-//self.secondStep.add(self.publisher);
-self.notSecondStep = self.svgDraw.group();
-
-self.thirdStep = self.svgDraw.group();
-
-self.time = self.svgDraw.group();
-self.time.add(self.svgDraw.text("Time").font({ size: 18,
-		  									    'text-transform': 'uppercase'}).fill('rgb(0,0,255)'));
-self.time.add(self.svgDraw.line(45, 15, 550, 15).stroke({ width: 3, color: 'rgb(0,0,255)'}));
-self.time.add(self.svgDraw.polygon("545,10 545,20 550,15").fill({ color: 'rgb(0,0,255)' }).stroke({ width: 2, color: 'rgb(0,0,255)' }));
-self.time.move(10, 320);
+self.initSVG();
 
  self.showLinearArtifact = function() {
   self.stepTitle("1. Author's idea and manuscript");
@@ -264,9 +299,6 @@ self.time.move(10, 320);
 
  self.publishBook = function() {
   self.stepTitle("2. Publishing & Printing");
-  $('#slide1').attr('class', 'btn btn-info disabled');
-  $('#slide2').attr('class', 'btn btn-primary');
-  $('#slide3').attr('class', 'btn btn-info');
   self.explanations.removeAll();
   self.explanations.push({'paragraph': 'After receiving the manuscript, the editor and publisher work on a print-ready book'});
 
@@ -278,7 +310,7 @@ self.time.move(10, 320);
      self.secondStep.add(self.printer);
      self.printer.animate().scale(2.0, 2.0).after(function() {
       self.manuscript.front();
-      self.manuscript.animate().x(300).after(function() { 
+      self.manuscript.animate().x(300).loop(3).after(function() { 
         self.manuscript.hide();
         self.printBook.move(self.manuscript.x(), self.manuscript.y());
         self.printBook.show().front();
@@ -361,10 +393,47 @@ self.time.move(10, 320);
       self.explanations.push({'paragraph': "Reader finds Book through the library's catalog or requests Book from collection"});
    });
  }
+ 
+ self.controls = new AnimationControls([self.showLinearArtifact,
+					  				    self.publishBook,
+                                        self.greatImmutableArtifact,
+									    self.distributeAcquire,
+                                        self.pushToReaders]);
+				
+// Controls
+  
+ self.backIsActive = ko.observable('btn btn-primary disabled');
+ 
+ self.backOne = function() {
+   self.controls.backStep();
+ }
+ 
+ self.forwardOne = function() {
+   if(self.controls.current_step != 0) {
+     console.log("Should set back to default");
+     self.backIsActive('btn btn-primary');
+   }
+   self.controls.forwardStep();
+ }
+ 
+ self.fowardIsActive = ko.computed(function() {
+  var nav_classes = 'btn btn-primary';
+  if(self.controls.current_step >= self.controls.steps.length) {
+     nav_classes += ' disabled';
+   }
+   return nav_classes;
+ }, self);
+  
 }
+
 
 var BookPostArtifactSystemModel = function() {
  var self = this;
+  
+ self.backStep = function() { console.log("In backstep"); }
+ self.forwardStep = function() { console.log("In forward step"); }
+ self.playDigitalArtifact = function() { console.log("Play Digital Artifact Animation"); }
+  
   
  self.svgDraw = SVG('book-digital-animation').size('1000', '600');
 
@@ -501,13 +570,12 @@ var BookPostArtifactSystemModel = function() {
  self.time.add(self.svgDraw.polygon("545,10 545,20 550,15").fill({ color: 'rgb(0,0,255)' }).stroke({ width: 2, color: 'rgb(0,0,255)' }));
  self.time.move(10, 420);
  
- 
 }
 
 var book_sys_view_model =  BookAsSystemViewModel();
-var book_digital_view_model = BookPostArtifactSystemModel();
+//var book_digital_view_model = BookPostArtifactSystemModel();
 ko.applyBindings(book_sys_view_model, document.getElementById('book-sys-dlg'));
-ko.applyBindings(book_digital_view_model, document.getElementById('book-post-dlg'));
+//ko.applyBindings(book_digital_view_model, document.getElementById('book-post-dlg'));
 
 </script>
 {% endblock %}
