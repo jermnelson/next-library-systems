@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<span id="discovery-view">
+<div class="jumbotron">
+ <h1>Discovery happens elsewhere&hellip; 
+     <a href="#" 
+        class="btn btn-lg"
+        data-bind="click: showLocalNeeded"><span class="glyphicon glyphicon-chevron-right"></span></a></h1>
+ <p class="lead">
+   While it shouldn't be too controversial to state that many of our potential 
+   library patrons will find our collections through commercial search engines
+   like <a href="http://www.google.com/">Google</a> and 
+   <a href="http://bing.com/">Microsoft Bing</a> or be referred to an item through
+   popular social networks like <a href="http://facebook.com/">Facebook</a>, 
+   <a href="http://linkedin.com/">LinkedIn</a>, or 
+   <a href="http://twitter.com/">Twitter</a>.   
+ </p>
+</div>
+
+
+<div class="row">
+ <div class="col-md-6">
+  <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Logo_2013_Google.png/320px-Logo_2013_Google.png" 
+       class="pull-right">
+  <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Facebook.svg/200px-Facebook.svg.png">
+  <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Bing_logo_%282013%29.svg/200px-Bing_logo_%282013%29.svg.png">
+  <img src="http://upload.wikimedia.org/wikipedia/en/thumb/9/9f/Twitter_bird_logo_2012.svg/200px-Twitter_bird_logo_2012.svg.png">
+ </div>
+ <div class="col-md-6">
+  <h2>Features &amp; Functions</h2>
+  <ul data-bind="foreach: featuresAndFunctionsQuestions">
+   <li data-bind="html: $data"></li>
+  </ul>
+ </div>
+</div>
+
+<hr>
+
+</span>
+
+<span id="local-collections-view" style="display:none">
+<div class="jumbotron">
+ <h1>
+  <a href="#" class="btn btn-lg" data-bind="click:showDiscovery"> 
+   <span class="glyphicon glyphicon-chevron-left"></span>
+ </a>
+  &hellip;but local is needed more than ever</h1>
+ <p class="lead">
+  Library as Publisher, digital repository services, and MakerLabs, all are 
+  creation spaces that are converging in Libraries. 
+ </p>
+</div>
+
+<div class="row">
+ <div class="col-md-6">
+  <h2>Features &amp; Functions</h2>
+  <ul data-bind="foreach: featuresAndFunctionsQuestions">
+   <li data-bind="html: $data"></li>
+  </ul>
+ </div>
+</div>
+</span>
+
+
+<div class="row">
+  <div class="col-md-6">
+    <a href="{{ url_for('slide', slide='our-future-tracks-the-book') }}" class="btn btn-success btn-lg">
+      <span class="glyphicon glyphicon-chevron-left"></span> Our Future Tracks the Book</a>
+  </div>
+  <div class="col-md-6">
+    <a href="{{ url_for('slide', slide='beyond-mobile-heads-up-augmented-services') }}" 
+       class="btn btn-success btn-lg">Beyond Mobile -- Heads ups to Augmented Services
+     <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block dialogs %}
+{# START thought-experiment-dlg #}
+<div class="modal fade" id="thought-experiment-dlg">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h1 class="modal-title"><span class=""></span> Thought Experiment</h1>
+      </div>
+      <div class="modal-body">
+        <p class="lead">
+         Let us assume (a big if!) that one of our primary objectives as libraries is to increase usage
+         and exposure of our collections. Further, we have a preference for promoting locally curated
+         and published sources from our communities's creative artifacts. So&hellip;  
+        </p>
+        <h2>What if we dropped support for discovery software and instead promoted our collections through
+          paid advertising on Google, Facebook, LinkedIn, and Twitter?</h2>
+          
+        <ul>
+         <li>Would we expect usage and "discovery" to increase?</li>
+         <li>What would be the continuing advertising costs for such a strategy? 
+         <li>Is it sustainable?</li>
+         <li>What are some secondary outcomes of this strategy?</li> 
+         <li>How does Search Engine Optimitization change?</li> 
+           
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+{# END thought-experiment-dlg #}
+</div>
+{% endblock %}
+
+{% block inline_js %}
+<script>
+ var DiscoveryViewModel = function() {
+  var self = this;
+  self.shownThoughtExperience = false;
+ 
+  self.featuresAndFunctionsQuestions = ko.observableArray([
+   "Does the system provide <a href='http://www.sitemaps.org/'>Sitemaps</a> for commercial and specialized web-crawlers?",
+   "Markup collections in Schema.org and other vocabularies",
+   "Adopt ResourceSync for resource sharing",
+   "CRUD (Create, Read,  Update, & Delete)  API (Application Programming Interface) access into the system for trusted partners.",
+   "Blurs lines between local, regional, national, and international systems (Promise of LinkedData)"]);
+
+  self.showLocalNeeded = function() {
+    $('#discovery-view').attr('style', 'display:none');
+    $('#local-collections-view').attr('style', 'display:block');
+    if(!self.shownThoughtExperience) {
+      $('#thought-experiment-dlg').modal('show');
+      self.shownThoughtExperience = true;
+    }
+  }
+ }
+
+ var LocalNeededViewModel = function() {
+  var self=this;
+
+  self.featuresAndFunctionsQuestions = ko.observableArray([
+    "Will the system support emerging Library publishing workflows for Open Access Journals?",
+    "How well does the system intergrate with digital repositories, particularly from instituions outside of the library?"
+    ]);
+
+
+  self.showDiscovery = function() {
+    $('#discovery-view').attr('style', 'display:block');
+    $('#local-collections-view').attr('style', 'display:none');
+  }
+
+
+
+ }
+
+var discovery_view = new DiscoveryViewModel();
+var local_needed_view = new LocalNeededViewModel();
+ko.applyBindings(discovery_view, document.getElementById('discovery-view'));
+ko.applyBindings(local_needed_view, document.getElementById('local-collections-view'));
+</script>
+
+{% endblock %}

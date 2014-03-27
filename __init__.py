@@ -25,23 +25,17 @@ slides['our-future-tracks-the-book'] = {'label': 'Our Future tracks the book',
     dominated our identity. Just in the past ten years has the book started to
     shifting to new, more online forms that split the content from the print
     format."""}
-slides['discovery-happens-elsewhere']= {
-    'label':'Discovery happens elsewhere&hellip;',
+slides['discovery-elsewhere-local-needed']= {
+    'label':"""Discovery happens elsewhere&hellip; but local is needed more
+    than ever""",
     'description': """First articulated by Lorcan Dempsey in 2007, in 2014 it
     is not as controversial to note that typically patrons use commerical search
     engines, social media, or mobile apps to discover items held by libraries.
     """}
-slides['local-is-needed-more-than-ever'] = {'label':"""&hellip;but local is
-    needed more than ever""",
-    'description': """Library as Publisher, digital repository services, and
-    creation spaces all converge on the local collections managed by
-    Libraries"""}
-slides['beyond-mobile'] = {'label': 'Beyond Mobile',
+
+slides['beyond-mobile-heads-up-augmented-services'] = {
+    'label': 'Beyond Mobile -- Heads ups to Augmented Services',
     'description': """ """}
-slides['heads-up-augmented-services'] = {'label': 'Heads up! Augmented Services',
-    'description': " "}
-slides['back-to-the-future'] = {'label':'Back to the Future?!',
-    'description': " "}
 
 @app.route("/<slide>.html")
 def slide(slide):
