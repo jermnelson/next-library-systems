@@ -3,9 +3,18 @@
 {% block main %}
 <div class="jumbotron" style="align: left">
  <h1>{{ topic.get('label')|safe }}</h1>
- <a href="http://craigmod.com/journal/post_artifact/"><img src="{{ url_for('static', filename='img/post-artifact-books-publishing.png') }}"
-     class="pull-right img-thumbnail"></a>
- <p class="lead">
+ <div class="row">
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+     <a href="http://craigmod.com/journal/post_artifact/">
+      <img src="{{ url_for('static', filename='img/post-artifact-books-publishing.png') }}"
+     </a>
+      <div class="caption">
+       This theme extends from Craig Mod's 2011 article, 
+      </div>
+    </div>
+   
+<p class="lead">
    {{ topic.get('description')|safe }}
  </p>
  <div class="btn-group-vertical btn-group-lg">
