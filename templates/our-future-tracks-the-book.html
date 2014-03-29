@@ -3,18 +3,17 @@
 {% block main %}
 <div class="jumbotron" style="align: left">
  <h1>{{ topic.get('label')|safe }}</h1>
- <div class="row">
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-     <a href="http://craigmod.com/journal/post_artifact/">
-      <img src="{{ url_for('static', filename='img/post-artifact-books-publishing.png') }}"
-     </a>
-      <div class="caption">
-       This theme extends from Craig Mod's 2011 article, 
-      </div>
+  <div class="thumbnail pull-right" style="width:250px;height:auto">
+   <a href="http://craigmod.com/journal/post_artifact/">
+    <img src="{{ url_for('static', filename='img/post-artifact-books-publishing.png') }}" >
+   </a>
+    <div class="caption">
+     This theme extends from Craig Mod's 2011 article,
+     <a href="http://craigmod.com/journal/post_artifact/">Post-Artifact Books &amp; Publishing</a>  
     </div>
-   
-<p class="lead">
+  </div>
+
+ <p class="lead">
    {{ topic.get('description')|safe }}
  </p>
  <div class="btn-group-vertical btn-group-lg">
@@ -130,7 +129,7 @@
 {% endblock %}
 
 {% block inline_js %}
-<script src="//cdnjs.cloudflare.com/ajax/libs/svg.js/1.0rc3/svg.min.js"></script>
+
 <script>
 
 var AnimationControls = function(steps){
