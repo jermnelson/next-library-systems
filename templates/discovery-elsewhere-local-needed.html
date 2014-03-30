@@ -203,27 +203,29 @@
 
   self.getRandomPosition = function() {
    var x = Math.floor(Math.random()*600);     
+  {#
    if(x <= 0) {
      x = 0;
    } else if(x >= 600) {
     x = 600;
-   }
-   y = Math.floor(Math.random()*640);
+   } #}
+   var y = Math.floor(Math.random()*640);
+   {# 
    if(y <= 0) {
     y = 0;
    } else if(y >= 640) {
     y = 640;
-   }
+   } #}
    return x,y;
   }
 
   self.showRepositories = function() {
    self.digital_repositories.show();
-   self.digital_repositories.animate().loop().during(function() {
-     self.fedora.animate(300).move(
-        self.getRandomPosition())
+   {#self.digital_repositories.animate(100).loop().during(function() {
+     self.fedora.animate().move(
+        self.getRandomPosition()) 
 
-   });
+   }); #}
 
    //self.dspace.animate(4000).move(self.getRandomPosition()).loop();
    //self.content_dm.animate(4000).move(self.getRandomPosition()).loop();
@@ -243,6 +245,8 @@
 
   self.svgDraw = SVG('local-animation').size('600', '640'); 
   self.digital_repositories = self.svgDraw.group();
+
+  self.digital_repositories.add(self.svgDraw.text("Open-source"));
 
   self.fedora = self.svgDraw.group();
   self.fedora.add(self.svgDraw.image("{{ url_for('static', filename='img/fedora-commons-logo.png') }}"));
