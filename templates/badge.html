@@ -2,10 +2,50 @@
 
 {% block main %}
 <div class="jumbotron">
- <h1>Open Badge</h1>
- <p class="lead">Earn your CO Alliance of Research Libraries <em>Next Generation ILS</em> conference 
-  <a href="#">Open Badge</a> by e-mailing <a href="mailto:jeremy.nelson@coloradocollege.edu">Jeremy Nelson</a>
+ <h1>Conference Open Badge</h1>
+  <img class="img img-thumbnail"
+        src="{{ url_for('static', filename='img/badge.svg') }}" 
+       alt="Next Gen ILS Open Badge" >
+
+ <p class="lead">Earn your Colorado Alliance of Research Libraries <em>Next Generation ILS</em> conference 
+  <a href="http://openbadges.org">Open Badge</a> by e-mailing <a href="mailto:jeremy.nelson@coloradocollege.edu">Jeremy Nelson</a>
  </p>
- 
+</div>
+<hr>
+<div class="row">
+ <div class="col-md-8 well">
+ <h3>What is a badge?</h3>
+  <p class="lead">
+   <em>(from the Open Badges <a href="http://openbadges.org/about/">about</a> page)</em>
+   <img class="img img-thumbnail pull-right"
+    src="{{ url_for('static', filename='img/mozilla-open-badges.png') }}">
+   <strong>A digital badge is an online representation of a skill 
+   you've earned</strong>. Open 
+   Badges take that concept one step further, and allows you to verify your skills, 
+   interests and achievements through credible organizations. And because the system 
+   is based on an open standard, you can combine multiple badges from different 
+   issuers to tell the complete story of your achievements - both online and off.
+  </p>
+</div>
+<div class="col-md-4">
+    <h3>Step-by-Step</h3>
+     <ol>
+      <li>Create an 
+         <a href="http://openbadges.org">Mozilla Open Badge Backpack</a> Account
+      </li>
+      <li>Send the e-mail address you used to register for your Open Badge Backpack 
+       to <a href="mailto:jeremy.nelson@coloradocollege.edu">jeremy.nelson@coloradocollege.edu</a>
+      </li>
+      <li>You'll receive a return e-mail with an image attachment of your <em>Next Gen ILS 2014</em>
+          badge that you then upload to your <a href="https://backpack.openbadges.org/">Mozilla Open
+          Backpack</a> to register your badge.
+      </li> 
+      <li>
+        Display your badge on web-pages and social networks, visit 
+        <a href="http://openbadges.org/display/">Display your badges across the web</a> for 
+        more information.
+      </li>
+    </ol>
+  </div>
 </div>
 {% endblock %}

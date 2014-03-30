@@ -17,6 +17,7 @@ from collections import OrderedDict
 from flask import abort, Flask, g, jsonify, redirect, render_template, request
 
 app = Flask(__name__)
+app.debug = True
 
 slides = OrderedDict()
 slides['our-future-tracks-the-book'] = {'label': 'Our Future tracks the book',

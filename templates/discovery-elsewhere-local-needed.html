@@ -22,10 +22,13 @@
 <div class="row">
  <div class="col-md-6">
   <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Logo_2013_Google.png/320px-Logo_2013_Google.png" 
-       class="pull-right">
-  <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Facebook.svg/200px-Facebook.svg.png">
-  <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Bing_logo_%282013%29.svg/200px-Bing_logo_%282013%29.svg.png">
-  <img src="http://upload.wikimedia.org/wikipedia/en/thumb/9/9f/Twitter_bird_logo_2012.svg/200px-Twitter_bird_logo_2012.svg.png">
+       id="google-img" style="position: relative">
+  <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Facebook.svg/200px-Facebook.svg.png" 
+       id="facebook-img" style="position: relative">
+  <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Bing_logo_%282013%29.svg/200px-Bing_logo_%282013%29.svg.png"
+       id="bing-img" style="position: relative">
+  <img src="http://upload.wikimedia.org/wikipedia/en/thumb/9/9f/Twitter_bird_logo_2012.svg/200px-Twitter_bird_logo_2012.svg.png"
+       id="twitter-img" style="position: relative">
  </div>
  <div class="col-md-6">
   <h2>Features &amp; Functions</h2>
@@ -104,20 +107,19 @@
         <h1 class="modal-title"><span class=""></span> Thought Experiment</h1>
       </div>
       <div class="modal-body">
-        <p class="lead">
+        <h2>What if we dropped support for discovery software and instead promoted our collections through
+          paid advertising on Google, Facebook, LinkedIn, or Twitter?</h2>
+        <p>
          Let us assume (a big if!) that one of our primary objectives as libraries is to increase usage
          and exposure of our collections. Further, we have a preference for promoting locally curated
-         and published sources from our communities's creative artifacts. So&hellip;  
+         and published sources from our communities creative artifacts. So&hellip;  
         </p>
-        <h2>What if we dropped support for discovery software and instead promoted our collections through
-          paid advertising on Google, Facebook, LinkedIn, and Twitter?</h2>
-          
         <ul>
-         <li>Would we expect usage and "discovery" to increase?</li>
+         <li>Should we expect usage and "discovery" to increase for our collections?</li>
          <li>What would be the continuing advertising costs for such a strategy? 
          <li>Is it sustainable?</li>
-         <li>What are some secondary outcomes of this strategy?</li> 
-         <li>How does Search Engine Optimitization change?</li> 
+         <li>What are some secondary consequences of this strategy?</li> 
+         <li>How does Search Engine Optimization change?</li> 
            
         </ul>
       </div>
@@ -132,15 +134,56 @@
 
 {% block inline_js %}
 <script>
- var DiscoveryViewModel = function() {
+  function makeNewPosition($container) {
+    $container = ($container || $(window))
+    var h = $container.height() - 50;
+    var w = $container.width() - 50;
+
+    var nh = Math.floor(Math.random() * h);
+    var nw = Math.floor(Math.random() * w);
+
+    return [nh, nw];
+  }
+
+  function animateImage(image_name) {
+    var image = $('#'+image_name);
+    var newq = self.makeNewPosition(image.parent());
+    var oldq = image.offset();
+    var speed = self.calcSpeed([oldq.top, oldq.left], newq);
+    image.animate({top: newq[0], left: newq[1]},
+                   speed, 
+                   function() {
+                     animateImage(image_name) });
+  }
+
+  function calcSpeed(prev, next) {
+    var x = Math.abs(prev[1] - next[1]);
+    var y = Math.abs(prev[0] - next[0]);
+
+    var greatest = x > y ? x : y;
+
+    var speedModifier = 0.1;
+
+    var speed = Math.ceil(greatest / speedModifier);
+
+    return speed;
+  }
+
+  var DiscoveryViewModel = function() {
   var self = this;
+  
+  animateImage('google-img'); 
+  animateImage('facebook-img');
+  animateImage('bing-img');
+  animateImage('twitter-img');
+  
   self.shownThoughtExperience = false;
  
   self.featuresAndFunctionsQuestions = ko.observableArray([
    "Does the system provide <a href='http://www.sitemaps.org/'>Sitemaps</a> for commercial and specialized web-crawlers?",
    "Markup collections in Schema.org and other vocabularies",
-   "Adopt ResourceSync for resource sharing",
-   "CRUD (Create, Read,  Update, & Delete)  API (Application Programming Interface) access into the system for trusted partners.",
+   "Adopt <a href='http://www.niso.org/workrooms/resourcesync/'>ResourceSync</a> for resource sharing",
+   "CRUD (<b>C</b>reate, <b>R</b>ead,  <b>U</b>pdate, & <b>D</b>elete)  API (Application Programming Interface) access into the system for trusted partners.",
    "Blurs lines between local, regional, national, and international systems (Promise of LinkedData)"]);
 
   self.showLocalNeeded = function() {
@@ -151,6 +194,7 @@
       self.shownThoughtExperience = true;
     }
   }
+
  }
 
  var LocalNeededViewModel = function() {
@@ -170,20 +214,21 @@
    } else if(y >= 640) {
     y = 640;
    }
-   console.log(x,y);
    return x,y;
   }
 
   self.showRepositories = function() {
    self.digital_repositories.show();
-   self.fedora.animate(4000).move(
-    self.getRandomPosition()
-   ).loop();
+   self.digital_repositories.animate().loop().during(function() {
+     self.fedora.animate(300).move(
+        self.getRandomPosition())
 
-   self.dspace.animate(4000).move(self.getRandomPosition()).loop();
-   self.content_dm.animate(4000).move(self.getRandomPosition()).loop();
-   self.bepress.animate(4000).move(self.getRandomPosition()).loop();
-   self.digitool.animate(4000).move(self.getRandomPosition()).loop();
+   });
+
+   //self.dspace.animate(4000).move(self.getRandomPosition()).loop();
+   //self.content_dm.animate(4000).move(self.getRandomPosition()).loop();
+   //self.bepress.animate(4000).move(self.getRandomPosition()).loop();
+   //self.digitool.animate(4000).move(self.getRandomPosition()).loop();
   }
 
   self.showDigitalPublishingPlatforms = function() {
@@ -193,7 +238,7 @@
 
   self.showDataCuration = function() {
    self.digital_repositories.hide();
-   consoe.log("In showDataCuration");
+   console.log("In showDataCuration");
   }
 
   self.svgDraw = SVG('local-animation').size('600', '640'); 
@@ -228,7 +273,7 @@
 
   self.featuresAndFunctionsQuestions = ko.observableArray([
     "Will the system support emerging Library publishing workflows for Open Access Journals?",
-    "How well does the system intergrate with digital repositories, particularly from instituions outside of the library?",
+    "How well does the system integrate with digital repositories, particularly from institutions outside of the library?",
     "When will your collections be present in Digital Public Library of America?"
 
     ]);
