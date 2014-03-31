@@ -10,8 +10,10 @@
 # Licence:     GPLv2
 #-------------------------------------------------------------------------------
 import datetime
+import json
 import os
 import sys
+import urllib2
 
 from collections import OrderedDict
 from flask import abort, Flask, g, jsonify, redirect, render_template, request
@@ -37,6 +39,21 @@ slides['discovery-elsewhere-local-needed']= {
 slides['beyond-mobile-heads-up-augmented-services'] = {
     'label': 'Beyond Mobile -- Heads ups to Augmented Services',
     'description': """ """}
+
+references = []
+for url in [
+    'http://intro2libsys.info/Article/ask-devops-guest-mobile-first-is-no-longer-enough.json',
+    'http://intro2libsys.info/Article/post-artifact-books-and-publishing.json']:
+    result = json.load(urllib2.urlopen(url))
+    resource = result
+    author = result.get('author')
+    resource['author'] = []
+    for row in author:
+        author_result = json.load(urllib2.urlopen("{}.json".format(
+            row.get('@id'))))
+        resource['author'].append(str(author_result.get('name')))
+    references.append(resource)
+
 
 @app.route("/<slide>.html")
 def slide(slide):
@@ -74,6 +91,7 @@ def open_badge():
 def resources():
     return render_template('resources.html',
                            category='topic',
+                           resources=references,
                            slides=slides)
 
 def main(dev=False):

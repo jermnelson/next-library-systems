@@ -3,5 +3,20 @@
 {% block main %}
 <div class="well">
  <h1>Resources</h1>
+ <ul class="list-unstyled">
+  {% for resource in resources %}
+  <li class="lead">
+   <a href="{{ resource.get('url')|safe }}"><em>{{ resource.get('headline') }}</em></a> by
+   {% for author in resource.get('author', []) %}
+    {{ author }}{%if loop.last %}.{% else %}.{% endif %}
+   {% if resource.get('datePublished') %} Published on {{ resource.get('datePublished') }}{% endif %} at
+   &lt;<a href="{{ resource.get('url') }}">{{ resource.get('url') }}</a>&gt;
+   {% endfor %}
+  </li>
+  {% endfor %}
+ </ul>
 </div>
 {% endblock %} 
+
+{% block inline_js %}
+{% endblock %}
