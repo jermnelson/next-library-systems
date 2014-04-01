@@ -12,11 +12,24 @@ function stepOne(view_model) {
      author.move(200, 320);
      var editor = view_model.svgDraw.group();
      editor.add(view_model.svgDraw.image("{{ url_for('static', filename='img/anna-wintour.png') }}"));
+     editor.add(view_model.svgDraw.text("Editor").move(10, 100));
      editor.move(475, 320);
-     var manuscript = view_model.svgDraw.image("{{ url_for('static', filename='img/creative_writing_64x64.png') }}");
-     manuscript.move(225, 380); 
-     manuscript.animate().loop(5).after(function() {
-      manuscript.cx(450);
+     view_model.manuscript = view_model.svgDraw.image("{{ url_for('static', filename='img/word.png') }}");
+     view_model.manuscript.move(225, 380); 
+     view_model.manuscript.animate().cx(475).after(function() {
+      view_model.preArtifactSystemReaders.animate().y(90).after(function() {
+       view_model.explanations.push({ paragraph: "Readers can engage the author through social media and other analytics" });
+       view_model.manuscript.animate().move(300, 270).after(function() { 
+         view_model.manuscript.animate().move(224, 380).after(function() {
+          setTimeout(function() {
+            author.remove();
+            editor.remove();
+             view_model.preArtifactSystemReaders.y(  
+
+          }, 5000);
+         });
+       });
+      });
      });
     });
  });
@@ -52,17 +65,19 @@ self.initSVG = function() {
  rightArrow.add(self.svgDraw.line(120, 20, 150, 65).stroke({ width: 3 }));
  //rightArrow.animate().move(rightArrow.x()-2, rightArrow.y()-2).loop();
  self.preArtifactSystem.add(rightArrow);
- self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(60, 5));
- self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(50, 8));
- self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(55, 15));
- self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(65, 0));
- self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(75, 25));
- self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(75, -5));
- self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(85, 10));
- self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(90, -10));
- self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(95, -1));
- self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(92, 20));
- self.preArtifactSystem.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(110, 2));
+ self.preArtifactSystemReaders = self.svgDraw.group();
+ self.preArtifactSystemReaders.add( self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(60, 5));
+ self.preArtifactSystemReaders.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(50, 8));
+ self.preArtifactSystemReaders.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(55, 15));
+ self.preArtifactSystemReaders.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(65, 0));
+ self.preArtifactSystemReaders.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(75, 25));
+ self.preArtifactSystemReaders.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(75, -5));
+ self.preArtifactSystemReaders.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(85, 10));
+ self.preArtifactSystemReaders.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(90, -10));
+ self.preArtifactSystemReaders.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(95, -1));
+ self.preArtifactSystemReaders.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(92, 20));
+ self.preArtifactSystemReaders.add(self.svgDraw.circle(10).fill({ color: 'rgb(255,0,0)' }).move(110, 2));
+ self.preArtifactSystem.add(self.preArtifactSystemReaders);
  var leftArrow = self.svgDraw.group();
  leftArrow.add(self.svgDraw.polygon('40,63 30,65 32,55').fill({ color: 'rgb(0,0,0)' }).stroke({ width: 2 }));
  leftArrow.add(self.svgDraw.line(35, 60, 65, 20).stroke({ width: 3 }));
@@ -125,7 +140,7 @@ self.initSVG = function() {
     add.tspan("Digital").newLine()
  	add.tspan("Artifact").newLine()}).font({ size: 16,
 	                                         weight: 'bold',
-		  									 'text-transform': 'uppercase'}).rotate(-35));
+		  				 'text-transform': 'uppercase'}).rotate(-35));
  self.digitalArtifact.add(self.svgDraw.line(15, 20, 15, 120).stroke({ width: 3 }));
  self.digitalArtifact.move(240, 260);
  self.digitalFlow.add(self.digitalArtifact);

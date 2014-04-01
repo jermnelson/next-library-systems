@@ -43,6 +43,7 @@ slides['beyond-mobile-heads-up-augmented-services'] = {
 references = []
 for url in [
     'http://intro2libsys.info/Article/ask-devops-guest-mobile-first-is-no-longer-enough.json',
+    'http://intro2libsys.info/Article/material-addicts-when-open-access-becomes-a-cult.json',
     'http://intro2libsys.info/Article/post-artifact-books-and-publishing.json']:
     result = json.load(urllib2.urlopen(url))
     resource = result
