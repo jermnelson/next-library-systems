@@ -3,13 +3,19 @@
 {% block main %} 
 <div class="well well-sm">
  <h1>Contact</h1>
- <address>
-  Jeremy Nelson<br>
-  Metadata and Systems Librarian<br>
-  Tutt Library, Colorado College<br>
-  (719) 389-6895<br>
-  <a href="mailto:jeremy.nelson@coloradocollege.edu">jeremy.nelson@coloradocollege.edu</a><br>
-  Twitter: <a href="https://twitter.com/jermnelson">@jermnelson</a>
- </address>
+ <div class="row">
+  <div class="col-md-4">
+   <address>
+    Jeremy Nelson<br>
+    Metadata and Systems Librarian<br>
+    Tutt Library, Colorado College<br>
+    (719) 389-6895<br>
+    <a href="mailto:jeremy.nelson@coloradocollege.edu">jeremy.nelson@coloradocollege.edu</a><br>
+    Twitter: <a href="https://twitter.com/jermnelson">@jermnelson</a>
+   </address>
+ </div>
+ <div class="col-md-8">
+  <img class="img img-thumbnail" src="{{ url_for('static', filename='img/code4lib-2013-chicago-detail.png') }}">
+ </div>
 </div>
 {% endblock %}

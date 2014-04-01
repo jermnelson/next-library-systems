@@ -242,8 +242,11 @@ self.initSVG();
    self.explanations.push({'paragraph': "Craig Mod calls the printed book, the <i>Great Immutable Artifact</i>"});
    self.thirdStep.add(self.greatArtifact);
    self.greatArtifact.animate().scale(1.5,1.5).after(function() {
-     self.explanations.push({'paragraph': "A book, once printed, assumes a number of properties libraries are interested in"});
-     self.explanations.push({'paragraph': "RDA properties like ISBN, page numbers, illustrations"});
+     self.explanations.push({'paragraph': "A book, once printed, assumes a number of properties of interested to libraries"});
+     setTimeout(function() {
+        self.explanations.push({'paragraph': "RDA properties like ISBN, page numbers, illustrations"});
+     }, 3000);
+      $('#features-functions').children().last().after("<li>Support RDA and legacy AACRL2</li>");
      var book_img = self.svgDraw.image("{{ url_for('static', filename='img/print_book.png') }}").scale(0.75, 0.75);
      book_img.move(50,79);
      self.greatArtifact.add(book_img);
@@ -258,21 +261,21 @@ self.initSVG();
  self.distributeAcquire = function() {
    self.stepTitle("4. Distribution & Acquisition");
    self.explanations.removeAll();
-   self.explanations.push({"paragraph": "After publication, the book is marketed by publisher"});
+   self.explanations.push({"paragraph": "After publication, the book is marketed and sold by publisher"});
    self.greatArtifact.animate().opacity(0.5).scale(0.5, 0.5).move(90,45);
       self.forthStep.add(self.distributor);
    self.distributor.show();
    self.distributor.animate().scale(2.0, 2.0).x(100).after(function() {
-      var book_image = self.svgDraw.image("{{ url_for('static', filename='img/print_book.png') }}").scale(0.75, 0.75).hide().move(50, 200);
-      book_image.show();
+      self.book_image = self.svgDraw.image("{{ url_for('static', filename='img/print_book.png') }}").scale(0.75, 0.75).hide().move(50, 200);
+      self.book_image.show();
       self.forthStep.add(self.library);
       self.library_stacks = self.svgDraw.image("{{ url_for('static', filename='img/library-stacks.jpg') }}").scale(2.0, 2.0).hide().move(310, 150);
       self.library.animate().scale(2.0, 2.0).opacity(1.0).x(200).after(function() {
-         book_image.animate(4000).x(200).after(function() {
+         self.book_image.animate(4000).x(200).after(function() {
 	 self.explanations.push({"paragraph": "The publisher sends the Book to the distributor"}); 
+          $('#features-functions').children().last().after("<li>Track costs, funding sources, and other provenance over the lifetime of the artifact</li>");
          self.library_stacks.back().show();
-	 book_image.animate().x(310).after(function() {
-	   self.forthStep.add(book_image); 
+	 self.book_image.animate().x(310).scale(0.1,0.1).after(function() {
 	   self.explanations.push({"paragraph": "The Library acquires the book, either through patron demand or collection policies"});
            setTimeout(function() {
              if(self.playAll()) {
@@ -287,15 +290,21 @@ self.initSVG();
  
  self.pushToReaders = function() {
    self.forthStep.hide();
+   self.book_image.x(3).hide();
    self.library_stacks.animate().x(30);   
    self.stepTitle("5. Push Book to Readers");
    self.explanations.removeAll();
    self.explanations.push({'paragraph': "Book is made available to patrons after shelving in the library's stacks"});
+   $('#features-functions').children().last().after("<li>Track costs and funding sources associated with the artifact</li>");
+
    self.fifthStep = self.svgDraw.group()
    self.fifthStep.add(self.readers);
    self.readersLabel.rotate(0);
    self.readers.animate().scale(2.0, 2.0).move(300, 20).after(function() { 
       self.explanations.push({'paragraph': "Reader finds Book through the library's catalog or requests Book from collection"});
+      self.book_image.show();
+      self.book_image.scale(1.0, 1.0);
+   
       
    });
  }

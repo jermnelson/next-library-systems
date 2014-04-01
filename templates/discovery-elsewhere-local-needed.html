@@ -62,21 +62,31 @@
    <li data-bind="html: $data"></li>
   </ul>
  </div>
- <div class="col-md-7">
-  <div class="btn-group">
-    <a href="#" 
-       class="btn btn-danger"
-       data-bind="click: showRepositories">Digital Repositories</a>
-    <a href="#"
-       class="btn btn-danger"
-       data-bind="click: showDigitalPublishingPlatforms">Publishing</a>
-    <a href="#"
-       class="btn btn-danger"
-       data-bind="click: showDataCuration">Data Curation</a>
-  </div>
+ <div class="col-md-7 well well-sm">
+  <h3>Current and Future Library Systems for Local Collections</h3> 
+  <ol class="breadcrumb" id="local-sources">
+    <li class="active"><a href="#" 
+       data-bind="click: showRepositories">Digital Repositories</a></li>
+    <li><a href="#"
+       {# class="btn btn-warning" #}
+        data-bind="click: showDigitalPublishingPlatforms">Publishing</a></li>
+    <li><a href="#"
+       {# class="btn btn-danger" #}
+       data-bind="click: showDataCuration">Data Curation</a></li>
+  </ol>
   <br>
-
-  <div id="local-animation"></div> 
+  <ul class="media-list" data-bind="foreach: technologies">
+    <li class="media" data-bind="attr: { id: id }" style='display: none'>
+      <a class="pull-left" data-bind="attr: { href: url }">
+        <img data-bind="attr: { src: imageUrl }" class="media-object" style="width: 150px;height:auto">
+      </a>
+      <div class="media-body">
+        <h4 class="media-heading" data-bind="text: name"></h4>
+        (<a data-bind="attr: { href: url }, text: url"></a>)
+        <p data-bind="html: description"><p>
+      </div>
+    </li>
+  </ul>
  </div>
 </div>
 </span>
@@ -203,77 +213,77 @@
 
   self.getRandomPosition = function() {
    var x = Math.floor(Math.random()*600);     
-  {#
-   if(x <= 0) {
-     x = 0;
-   } else if(x >= 600) {
-    x = 600;
-   } #}
    var y = Math.floor(Math.random()*640);
-   {# 
-   if(y <= 0) {
-    y = 0;
-   } else if(y >= 640) {
-    y = 640;
-   } #}
    return x,y;
   }
 
+  self.technologies = ko.observableArray([
+    { imageUrl: "{{ url_for('static', filename='img/fedora-commons-logo.png') }}",
+      name: 'Fedora Commons',
+      id: 'fedora',
+      description: "An open-source repository platform currently being used by Alliance Digital Repository with an Islandora user-interface",
+      url: 'http://fedora-commons.org/'},
+    { imageUrl: "{{ url_for('static', filename='img/dspace_logo.png') }}",
+      id: 'dspace',
+      name: 'DSpace',
+      description: 'An open source software is a turnkey repository application.',
+      url: 'http://www.dspace.org/'},
+    { imageUrl: "{{ url_for('static', filename='img/bepress-logo.png') }}",
+      name: "BePress Digital Commons",
+      id: 'bepress',
+      description: 'A commercially hosted institutional repository and scholarly publication platform',
+      url: 'https://www.bepress.com/'},
+    { imageUrl: "{{ url_for('static', filename='img/content-dm-logo.png') }}",
+      name: "ContentDM",
+      id: "content-dm",
+      description: 'A commercial digital collection software from OCLC',
+      url: 'http://www.contentdm.org/'},
+    { imageUrl: "{{ url_for('static', filename='img/logo_DigiTool.jpg') }}",
+      name: 'DigiTool',
+      id: 'digitool',
+      description: 'A commercial digital collections and institutional repository software from Ex Libris',
+      url: 'http://www.exlibrisgroup.com/category/DigiToolOverview'},
+    { imageUrl: "{{ url_for('static', filename='img/pkp-open-journals.png') }}",
+      name: 'Public Knowledge Project - Open Journals Systems',
+      id: 'pkp-open-journal-sys',
+      description: "An open-source journal management and publishing system that has been developed by the Public Knowledge Project",
+      url: 'http://pkp.sfu.ca/ojs/'},
+    { imageUrl:  "{{ url_for('static', filename='img/hoap-webpage.png') }}",
+      name: "Huddersfield Open Access Publishing",
+      id: "hoap",
+      description: "An open-source platform using EPrints software for University open-access e-journal.",
+      url: "https://library3.hud.ac.uk/blogs/hoap/"},
+    { imageUrl: "{{ url_for('static', filename='img/WordPress_logo.png') }}",
+      name: "WordPress",
+      id: "wordpress",
+      description: "An open-source blogging tool and CMS that is being used for publishing",
+      url: "https://wordpress.org/"} 
+      ]);
+
   self.showRepositories = function() {
-   self.digital_repositories.show();
-   {#self.digital_repositories.animate(100).loop().during(function() {
-     self.fedora.animate().move(
-        self.getRandomPosition()) 
-
-   }); #}
-
-   //self.dspace.animate(4000).move(self.getRandomPosition()).loop();
-   //self.content_dm.animate(4000).move(self.getRandomPosition()).loop();
-   //self.bepress.animate(4000).move(self.getRandomPosition()).loop();
-   //self.digitool.animate(4000).move(self.getRandomPosition()).loop();
+   $('#fedora').attr('style', 'display: block');
+   $('#bepress').attr('style', 'display: block');
+   $('#digitool').attr('style', 'display: block');
+   $('#content-dm').attr('style', 'display: block');
+   $('#dspace').attr('style', 'display: block');
+   $('#pkp-open-journal-sys').attr('style', 'display: none');
+   $('#hoap').attr('style', 'display: none');
+   $('#wordpress').attr('style', 'display: none');
   }
 
   self.showDigitalPublishingPlatforms = function() {
-   self.digital_repositories.hide();
-   console.log("In showDigitalPublishingPlatforms")
+   $('#digitool').attr('style', 'display: none');
+   $('#fedora').attr('style', 'display: none');
+   $('#pkp-open-journal-sys').attr('style', 'display: block');
+   $('#hoap').attr('style', 'display: block');
+   $('#wordpress').attr('style', 'display: block');
+
   }
 
   self.showDataCuration = function() {
-   self.digital_repositories.hide();
    console.log("In showDataCuration");
   }
 
-  self.svgDraw = SVG('local-animation').size('600', '640'); 
-  self.digital_repositories = self.svgDraw.group();
-
-  self.digital_repositories.add(self.svgDraw.text("Open-source"));
-
-  self.fedora = self.svgDraw.group();
-  self.fedora.add(self.svgDraw.image("{{ url_for('static', filename='img/fedora-commons-logo.png') }}"));
-  self.fedora.scale(1.5, 1.5);
-  self.digital_repositories.add(self.fedora);
-
-  self.dspace = self.svgDraw.group();
-  self.dspace.add(self.svgDraw.image("{{ url_for('static', filename='img/dspace_logo.png') }}"));
-  self.dspace.x(250);
-  self.digital_repositories.add(self.dspace);
-
-  self.content_dm = self.svgDraw.group();
-  self.content_dm.add(self.svgDraw.image("{{ url_for('static', filename='img/content-dm-logo.png') }}"));
-  self.content_dm.y(75).scale(2.0, 2.0);
-  self.digital_repositories.add(self.content_dm);
-
-  self.bepress = self.svgDraw.group();
-  self.bepress.add(self.svgDraw.image("{{ url_for('static', filename='img/bepress-logo.png') }}"));
-  self.bepress.move(30, 130).scale(2.0, 2.0);
-  self.digital_repositories.add(self.bepress);
-
-  self.digitool = self.svgDraw.group();
-  self.digitool.add(self.svgDraw.image("{{ url_for('static', filename='img/logo_DigiTool.jpg') }}"));
-  self.digitool.y(200).scale(2.5, 2.5);
-  self.digital_repositories.add(self.digitool);
-
-  self.digital_repositories.hide();
 
   self.featuresAndFunctionsQuestions = ko.observableArray([
     "Will the system support emerging Library publishing workflows for Open Access Journals?",
@@ -289,11 +299,11 @@
   }
 
 
-
  }
 
 var discovery_view = new DiscoveryViewModel();
 var local_needed_view = new LocalNeededViewModel();
+
 ko.applyBindings(discovery_view, document.getElementById('discovery-view'));
 ko.applyBindings(local_needed_view, document.getElementById('local-collections-view'));
 </script>

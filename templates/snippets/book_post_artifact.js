@@ -19,12 +19,16 @@ function stepOne(view_model) {
      view_model.manuscript.animate().cx(475).after(function() {
       view_model.preArtifactSystemReaders.animate().y(90).after(function() {
        view_model.explanations.push({ paragraph: "Readers can engage the author through social media and other analytics" });
+       $('#features-functions').children().last().after("<li>Support reader annotation on incomplete creative works?</li>");
        view_model.manuscript.animate().move(300, 270).after(function() { 
          view_model.manuscript.animate().move(224, 380).after(function() {
           setTimeout(function() {
             author.remove();
             editor.remove();
-             view_model.preArtifactSystemReaders.y(  
+            view_model.preArtifactSystem.animate().scale(0.5,0.5).move(0,100).opacity(0.5); 
+            view_model.manuscript.hide();
+            view_model.preArtifactSystemReaders.y(0); 
+            stepTwo(view_model);
 
           }, 5000);
          });
@@ -33,6 +37,73 @@ function stepOne(view_model) {
      });
     });
  });
+}
+
+function stepTwo(view_model) {
+ view_model.stepTitle("2. Print Flow");
+ view_model.explanations.removeAll();
+ view_model.explanations.push({ paragraph: "At this point, the classic model and the post-artifact model diverge"}); 
+ view_model.printFlow.animate().scale(2.0,2.0).x(-250).opacity(1.0).during(function() { 
+   view_model.artifact_label.move(10, 40).rotate(0);
+ }).after(function() {
+   var book_img = view_model.svgDraw.image("{{ url_for('static', filename='img/print_book.png') }}");
+   book_img.move(350,300).hide();
+   view_model.manuscript.move(0, 400).show();
+   view_model.manuscript.animate().move(300, 350).after(function() { 
+     view_model.explanations.push({ paragraph: "The print-flow for the post-artifact looks similar to the classic model" });
+   view_model.manuscript.hide();
+    view_model.explanations.push({ paragraph: "A MARC record is either produced from Publisher metadata, Original cataloging, or various hybrids"});
+    view_model.explanations.push({ paragraph: "Embedding RDA into our MARC records allows us to better describe different textual manifestations"});
+   book_img.show();
+   book_img.animate(3000,'>', 5000).x(600).after(function() {
+    view_model.explanations.push({ paragraph: "The key difference is that the printed artifact is not longer privileged"});
+    var firstPartPrintFlow = view_model.svgDraw.group();
+     firstPartPrintFlow.add(view_model.print);
+     firstPartPrintFlow.add(view_model.printer);
+     firstPartPrintFlow.add(view_model.immutableArtifact);
+     firstPartPrintFlow.animate().scale(0.75, 0.75).move(-30,10).opacity(0.5).after(function() { 
+       view_model.distributionChannels.animate().x(view_model.distributionChannels.x() - 275).during(function() {
+         book_img.animate().x(view_model.distributionChannels.x()+100).after(function() { 
+           var library_stacks = view_model.svgDraw.image("{{ url_for('static', filename='img/library-stacks.jpg') }}").scale(2.0,2.0).hide();
+           library_stacks.back().move(300, 150).show();
+           book_img.animate().move(350, 200).scale(0.2, 0.2).after(function() {
+            firstPartPrintFlow.animate().scale(0.5,0.5).move(0, 5);
+            view_model.distributionChannels.animate().scale(0.3, 0.3).move(200, 5).opacity(0.5).after(function() { 
+              library_stacks.remove();
+              book_img.remove();
+              stepThree(view_model);
+             });
+
+           });
+         });
+       });
+     });
+
+   });
+  });
+ });
+}
+
+function stepThree(view_model) {
+ view_model.stepTitle("3. Digital Artifact Flow");
+ view_model.explanations.removeAll();
+ view_model.explanations.push({ paragraph: "The digital artifact is different from the print manifestation"});
+ var activeStepThree = view_model.svgDraw.group();
+ activeStepThree.add(view_model.digitalFlow.opacity(1.0));
+ activeStepThree.add(view_model.postArtifactSystem.y(150).opacity(1.0));
+ activeStepThree.move(0,0).animate().scale(2.0,2.0).after(function() { 
+  view_model.explanations.push({ paragraph: "Converting between binary and text formats is easier than print-to-digital"});  
+  setTimeout(function() {
+    view_model.explanations.push({ paragraph: "Beside various very-large commercial DRM and eBook silos (iTunes, Amazon, Google Play), ePub3 standard is slowly emerging for digital books"});
+  }, 3000);
+  $('#features-functions').children().last().after("<li>How will the system support different and restricted copyrights?</li>");
+  $('#features-functions').children().last().after("<li><a href='http://www.idpf.org/epub/30/spec/'>ePub3</a> streams?</li>");
+  $('#features-functions').children().last().after("<li>Manage the additional complexities of digital objects?</li>");
+//   view_model.time.show();
+
+
+ });
+
 }
 
 var BookPostArtifactSystemModel = function() {
@@ -53,7 +124,7 @@ var BookPostArtifactSystemModel = function() {
  } 
 
 self.initSVG = function() { 
- self.svgDraw = SVG('book-digital-animation').size('1000', '600');
+ self.svgDraw = SVG('book-digital-animation').size('900', '600');
  
  self.preArtifactSystem = self.svgDraw.group();
  self.preArtifactSystem.add(self.svgDraw.text("Idea").font({ size: 18 }).move(-20,20).rotate(-45));
