@@ -41,7 +41,7 @@ slides['beyond-mobile-heads-up-augmented-services'] = {
     'description': """ """}
 
 references = []
-for url in [
+for url in []:
 ##    'http://intro2libsys.info/Article/ask-devops-guest-mobile-first-is-no-longer-enough.json',
 ##    'http://intro2libsys.info/Article/material-addicts-when-open-access-becomes-a-cult.json',
 ##    'http://intro2libsys.info/Article/post-artifact-books-and-publishing.json']:
