@@ -10,13 +10,16 @@
 # Licence:     GPLv2
 #-------------------------------------------------------------------------------
 import datetime
+import hashlib
 import json
 import os
 import sys
 import urllib2
+import uuid
 
 from collections import OrderedDict
 from flask import abort, Flask, g, jsonify, redirect, render_template, request
+from flask import Response, url_for
 
 app = Flask(__name__)
 app.debug = True
@@ -47,6 +50,8 @@ slides['one-approach-to-lib-sys'] = {
 references = []
 intro2libsys_path = "C:\\Users\\jernelson\\Development\\intro2libsys"
 ##intro2libsys_path = "/Users/jeremynelson/intro2libsys"
+IDENTITY_SALT = 'Alliance Next Gen ILS Badge'
+
 for row in [
     'Article/ask-devops-guest-mobile-first-is-no-longer-enough.json',
     'BlogPosting/catalog-by-design.json',
@@ -101,6 +106,108 @@ def default():
     return render_template("index.html",
                            category='home',
                            slides=slides)
+
+
+@app.route("/attender-badge.json")
+def badge_class():
+    return jsonify({"name": "Next Generation ILS Attender Badge",
+        "description": """This attender badge was issued by Colorado Alliance of Research Libraries attending Next Gen ILS conference on 4 April 2014.""",
+        "image": "http://intro2libsys.info{0}".format(
+            url_for('static', filename="img/badge.png")),
+        "criteria": "http://intro2libsys.info/next-library-systems-2014/open-badge/",
+        "tags": ["Library Systems", "EBook", "Linked Data", "Future technology"],
+        "issuer": "http://intro2libsys.info{0}".format(
+            url_for('badge_issuer_org'))})
+
+@app.route("/badge-issuer-organization.json")
+def badge_issuer_org():
+    return jsonify(
+        {"name": "Colorado Alliance of Research Libraries",
+         "url": "http://coalliance.org",
+         "email": "jermnelson@gmail.com",
+         "revocationList": "http://intro2libsys.info{0}".format(
+             url_for('badge_revoked'))})
+
+@app.route('/revoked.json')
+def badge_revoked():
+    return jsonify({})
+
+@app.route('/<uid>-attender-badge.json')
+def attender_badge(uid):
+    badge_location = os.path.join(
+        project_root,
+        'badges',
+        '{0}.json'.format(uid))
+    attender_img_location = os.path.join(project_root,
+                                         'badges',
+                                         'img',
+                                         '{0}.png'.format(uid))
+    if os.path.exists(badge_location) and os.path.exists(attender_img_location):
+        badge = json.load(open(badge_location))
+        badge['image'] =  'http://intro2libsys.info/next-library-systems-2014/{}-attender-badge.png'.format(
+            uid)
+        return jsonify(badge)
+    else:
+        abort(404)
+
+@app.route('/<uid>-attender-badge.png')
+def attender_badge_image(uid):
+    attender_img_location = os.path.join(project_root,
+                                         'badges',
+                                         'img',
+                                         '{0}.png'.format(uid))
+    if os.path.exists(attender_img_location):
+        img = None
+        with open(attender_img_location, 'rb') as img_file:
+            img = img_file.read()
+        return Response(img, mimetype='image/png')
+    else:
+        abort(404)
+
+def bake_badge(**kwargs):
+    assert_url = kwargs.get('url')
+    try:
+        badge_url = 'http://beta.openbadges.org/baker?assertion={0}'.format(assert_url)
+        baking_service = urllib2.urlopen(badge_url)
+        raw_image = baking_service.read()
+        return raw_image
+    except:
+        print("Exception occurred: {0}".format(sys.exc_info()))
+        return None
+
+def issue_badge(**kwargs):
+    identity_hash = hashlib.sha256(kwargs.get("email"))
+    identity_hash.update(identity_salt)
+    uid = str(uuid.uuid4()).split("-")[0]
+    uid_url = url_for('attender_badge', uid=uid)
+    print(uid_url)
+    badge_json = {
+        'badge': "http://intro2libsys.info/next-library-systems-2014/attender-badge.json",
+        'issuedOn': kwargs.get('issuedOne', datetime.datetime.now().isoformat()),
+        'recipient': {
+            'type': "email",
+            'hashed': True,
+            'salt': identity_salt,
+            'identity': "sha256${0}".format(
+                identity_hash.hexdigest())},
+        'verify': {
+            'type': 'hosted',
+            'url': uid_url},
+        'uid': uid
+        }
+    # Save badge to badges directory
+    json.dump(badge_json,
+              open(os.path.join('badges', '{0}.json'.format(uid)), 'wb'),
+              indent=2,
+              sort_keys=True)
+    raw_badge_img = bake_badge(url=uid_url)
+    if raw_badge_img:
+        with open(os.path.join('badges', 'img', '{0}.png'.format(uid)), 'wb') as img_file:
+            img_file.write(raw_badge_img)
+        print("Successfully added {0} and badge image".format(uid))
+    else:
+        print("ERROR unable to issue badge")
+
 
 @app.route("/open-badge")
 def open_badge():
