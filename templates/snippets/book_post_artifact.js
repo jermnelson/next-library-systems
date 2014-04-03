@@ -28,7 +28,7 @@ function stepOne(view_model) {
             view_model.preArtifactSystem.animate().scale(0.5,0.5).move(0,100).opacity(0.5); 
             view_model.manuscript.hide();
             view_model.preArtifactSystemReaders.y(0); 
-            stepTwo(view_model);
+           // stepTwo(view_model);
 
           }, 5000);
          });
@@ -71,7 +71,7 @@ function stepTwo(view_model) {
             view_model.distributionChannels.animate().scale(0.3, 0.3).move(200, 5).opacity(0.5).after(function() { 
               library_stacks.remove();
               book_img.remove();
-              stepThree(view_model);
+              //stepThree(view_model);
              });
 
            });
@@ -96,6 +96,7 @@ function stepThree(view_model) {
   setTimeout(function() {
     view_model.explanations.push({ paragraph: "Beside various very-large commercial DRM and eBook silos (iTunes, Amazon, Google Play), ePub3 standard is slowly emerging for digital books"});
   }, 3000);
+  view_model.explanations.push({ paragraph: "In the animation, the red dashed lines are reader interactions with both the print and digital artifacts"});
   $('#features-functions').children().last().after("<li>How will the system support different and restricted copyrights?</li>");
   $('#features-functions').children().last().after("<li><a href='http://www.idpf.org/epub/30/spec/'>ePub3</a> streams?</li>");
   $('#features-functions').children().last().after("<li>Manage the additional complexities of digital objects?</li>");
@@ -108,9 +109,24 @@ function stepThree(view_model) {
 
 var BookPostArtifactSystemModel = function() {
  var self = this;
-  
+ self.stepCount = 0; 
+ 
  self.startPlayAll = function() {
-   stepOne(self);
+  switch(self.stepCount) {
+   case 0:
+     stepOne(self);
+     break;
+
+   case 1:
+     stepTwo(self);
+     break;
+
+   case 2: 
+     stepThree(self);
+     break;
+  
+  }
+  self.stepCount += 1;
  }
 
 
@@ -121,6 +137,8 @@ var BookPostArtifactSystemModel = function() {
   $('#book-digital-animation').empty();
   self.explanations.removeAll();
   self.initSVG();
+  self.stepCount = 0; 
+
  } 
 
 self.initSVG = function() { 

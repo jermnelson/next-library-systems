@@ -6,14 +6,38 @@ var BookAsSystemViewModel = function() {
  self.refreshView = function() {
   $('#book-sys-animation').empty();
   self.explanations.removeAll();
+  self.stepCount=0;
   self.initSVG();
  }
 
  self.stepTitle = ko.observable();
+ self.stepCount=0;
 
  self.startPlayAll = function() {
-   self.playAll(true);
-   self.showLinearArtifact();
+   self.playAll(false);
+   switch(self.stepCount) {
+    case 0:
+      self.showLinearArtifact();
+      break;
+
+    case 1: 
+      self.publishBook(); 
+      break;
+
+    case 2: 
+     self.greatImmutableArtifact(); 
+     break;   
+ 
+    case 3:
+     self.distributeAcquire(); 
+     break;
+
+    case 4:
+     self.pushToReaders();
+     break;    
+   
+   }
+   self.stepCount += 1;
  }
 
 
@@ -248,7 +272,7 @@ self.initSVG();
         self.explanations.push({'paragraph': "title, author, publisher, and other bibliographic data encoded in MARC21" });
      }, 3000);
      setTimeout(function() {
-        self.explanations.push({ paragraph: "Now adding RDA properties like ISBN, page numbers, illustrations"});  
+        self.explanations.push({ paragraph: "Now adding RDA practices and properties to description in MARC"});  
      }, 3000);
       $('#features-functions').children().last().after("<li>Support RDA and legacy AACR2</li>");
      var book_img = self.svgDraw.image("{{ url_for('static', filename='img/print_book.png') }}").scale(0.75, 0.75);
@@ -313,18 +337,17 @@ self.initSVG();
    prospector_catalog.move(270, 300).show();
    self.readers.animate().scale(2.0, 2.0).move(300, 20).after(function() { 
       self.explanations.push({'paragraph': "Reader finds Book through the library's catalog"});
-      self.book_image.move(200, 75);
-      self.book_image.scale(1.0, 1.0).show();
-      self.book_image.animate().move(400, 100).after(function() {
+      self.book_image.scale(1.0, 1.0).forward().show();
+      self.book_image.animate().move(400, 175).after(function() {
         self.explanations.push({paragraph: "First through find the book using the Library's card catalog"});
         card_catalog.animate().opacity(0.5).after(function() {
-          self.book_image.hide().move(100, 100).show();
+          self.book_image.hide().move(100, 175).show();
           self.explanations.push({paragraph: "Next through catalog running on dedicated computer terminals"});
-          self.book_image.animate().move(200, 100).after(function() {
-            self.book_image.hide().move(100, 100).show();
+          self.book_image.animate().move(400, 175).after(function() {
+            self.book_image.hide().move(100, 175).show();
             self.explanations.push({paragraph: "Finally readers use our modern OPACS and Discovery Services to locate the book"}); 
             telnet_catalog.animate().opacity(0.5).after(function() {
-              self.book_image.animate().move(200, 350);
+              self.book_image.animate().move(400, 175);
             });
          });
        });  
