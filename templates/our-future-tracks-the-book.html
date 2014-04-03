@@ -1,6 +1,18 @@
 {% extends 'base.html' %}
 
 {% block main %}
+<blockquote>
+  Ebook 
+  integration has advanced into the must-have category of features for any online catalog or discovery 
+  product oriented to public libraries. The ability to implement this feature depends on the 
+  availability of APIs exposed by the ebook lending services. from 
+  <footer>Marshell Breeding, <em>Library Technology Forecast for 2014 and 
+  Beyond</em>
+  </footer>
+</blockquote>
+
+
+
 <div class="jumbotron" style="align: left">
  <h1>{{ topic.get('label')|safe }}</h1>
   <div class="thumbnail pull-right" style="width:250px;height:auto">
@@ -23,32 +35,51 @@
    <a href="#book-post-dlg"
 	  class="btn btn-default" 
       data-toggle="modal">The Book in the Post-Artifact System</a>
+    </div>
+</div>
+
+<hr>
+
+<div class="well well-sm">
+  <h2>From MARC to LinkedData</h2>
+   <p>
+    As the book publishing systems has evolved and changed, so too has our ability to 
+    describe the books properties and relationships with other books, local and national
+    subjects, along with authors and title. The family of MARC standards; Bibliographic,
+    Authority, and Holdings records, are how these relationships were describing a book 
+    in the classic Book publishing system. 
+   </p>
+   <p>
+    Using linked data - a way to make assertations about artifacts that has global scope with 
+    sharded URIs - libraries have the opportunity to deeply enrich their local collections through
+    connecting with local, regional, national, and international sources of linked data.
+    The new Library of Congress <a href="http://bibframe.org">BIBFRAME</a> along with
+    the <a href="http://schema.og/">Schema.org</a> linked data vocabularies are examples of
+    organizaing assertations about artifacts.
+   </p>
  </div>
+ <hr>
+
+<div class="panel panel-primary">
+  <div class="panel-heading">
+   <h3 class="panel-title">The Increasingly Granularity of Bibliographic Entities</h3>
+  </div>
+  <div class="panel-body"> 
+   <p>
+    For many years, the book was the bibliographic entity that libraries described with MARC21
+    and AACR2. Note fields in the MARC record allowed for some information about the contents 
+    of the book to be included in the record but the book's chapters and certainly not paragraphs
+    were not described and available through the catalog. Periodical entities are described in
+    the MARC21 record in somewhat more granularity with the "work" and "issue" level of descriptions.
+    MARC records for may or may not include  
+    our modern ILS and Library Services platforms require additional technology to associate
+    
+   </p>
+   <p>
+    While our patrons sea
+   </p>
+  </div>
 </div>
-
-<hr>
-
-<div class="well">
- <h2>Bibliographic Theory, Library Systems, &amp; The Book</h2>
- <p>In the classical book publishing system, our patron first used the library's 
-    card catalog 
-    and moved to early (and some libraries even still do) early computer catalogs from dedicated terminals,
-   <img src="{{ url_for('static', filename='img/card-catalog.jpg') }}" class="img img-thumbnail pull-right">
-    to our current era of commerical search engines, Library Services Platforms, Discovery Services, and webscale
-    products.    
- </p>
- <p>
-  How will library systems handle E-Books? Marshell Breeding predicts that in 
-  the next year or so he "anticipate significant progress in online catalog and discovery products. Ebook 
-  integration has advanced into the must-have category of features for any online catalog or discovery 
-  product oriented to public libraries. The ability to implement this feature depends on the 
-  availability of APIs exposed by the ebook lending services." from <em>Library Technology Forecast for 2014 and 
-  Beyond</em>
- </p>
-</div>
-
-<hr>
-
 <div class="row">
  
  <div class="col-md-12">

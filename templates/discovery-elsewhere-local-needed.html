@@ -50,11 +50,41 @@
  </a>
   &hellip;but local is needed more than ever</h1>
  <p class="lead">
-  Library as Publisher, digital repository services, and MakerLabs, all are 
-  creation spaces that are converging in Libraries. 
+  The library is becoming the center of creative activity in our
+  communities through the library's emerging roles as an open access
+  journal publisher, digital archivist through institutional 
+  repositories, and as experimental manufacturers using 3-D printers in 
+  library MakerLabs.
  </p>
 </div>
-
+<hr>
+<div class="well">
+ <h1>Data Curation</h1>
+ <p class="lead">Big, small, or medium, managing <em>data</em> produced by our communities
+ is a challenge libraries face. From local storage of operational data created by sensors 
+ and experiments, to national and international data sharing sites for various disciplines,
+ we need library systems that are flexible enough to handle the preservation of 
+ highly variable textual and binary digital artifacts. We also need library systems that 
+ at least capture the provenance of these digital artifacts while still providing sufficient
+ description to be both generally discoverable as well as using discipline or profession 
+ specific vocabularies.
+ </p>
+ <h1 style="text-align:right">Open Access</h1>
+ <p class="lead" style="text-align:right">
+  Libraries are emerging as one possibility of hosting and publishing scholarship through
+  digital repository and publishing technologies. While we acknowledge the controversies
+  surrounding Open Access, the functionality to support these different models is something 
+  we need from our library systems. 
+ </p>
+ <h1>3D Printing and Makerspaces</h1>
+ <p class="lead">
+  Situating 3D printers and other tools in the library as Makerspace, may just be a passing
+  trend but it points to a critical need for library systems to be able to describe and 
+  associate a creative work through the initial ideas, to intermediary blueprints, through 
+  manufacturing, and then finally as a functioning artifact. 
+ </p>
+</div>
+<hr>
 <div class="row">
  <div class="col-md-5">
   <h2>Features &amp; Functions</h2>
@@ -63,17 +93,13 @@
   </ul>
  </div>
  <div class="col-md-7 well well-sm">
-  <h3>Current and Future Library Systems for Local Collections</h3> 
-  <ol class="breadcrumb" id="local-sources">
-    <li class="active"><a href="#" 
-       data-bind="click: showRepositories">Digital Repositories</a></li>
-    <li><a href="#"
-       {# class="btn btn-warning" #}
-        data-bind="click: showDigitalPublishingPlatforms">Publishing</a></li>
-    <li><a href="#"
-       {# class="btn btn-danger" #}
-       data-bind="click: showDataCuration">Data Curation</a></li>
-  </ol>
+  <h3>Current Library Systems for Local Collections</h3> 
+  <div class="btn-group"  id="local-sources">
+    <a href="#" class="btn btn-success"
+       data-bind="click: showRepositories">Digital Repositories</a>
+    <a href="#" class="btn btn-success"
+        data-bind="click: showDigitalPublishingPlatforms">Publishing</a>
+  </div>
   <br>
   <ul class="media-list" data-bind="foreach: technologies">
     <li class="media" data-bind="attr: { id: id }" style='display: none'>
@@ -89,7 +115,11 @@
   </ul>
  </div>
 </div>
+<hr>
+
+
 </span>
+
 
 
 <div class="row">
@@ -99,7 +129,7 @@
   </div>
   <div class="col-md-6">
     <a href="{{ url_for('slide', slide='beyond-mobile-heads-up-augmented-services') }}" 
-       class="btn btn-success btn-lg">Beyond Mobile to Augmented Services
+       class="btn btn-success btn-lg">Beyond Mobile to Augmented Services &amp; Internet of Things
      <span class="glyphicon glyphicon-chevron-right"></span>
     </a>
   </div>
@@ -117,7 +147,7 @@
         <h1 class="modal-title"><span class=""></span> Thought Experiment</h1>
       </div>
       <div class="modal-body">
-        <h2>What if we dropped support for discovery software and instead promoted our collections through
+        <h2>What if we decreased support for discovery services and instead promoted our collections through
           paid advertising on Google, Facebook, LinkedIn, or Twitter?</h2>
         <p>
          Let us assume (a big if!) that one of our primary objectives as libraries is to increase usage
@@ -278,10 +308,6 @@
    $('#hoap').attr('style', 'display: block');
    $('#wordpress').attr('style', 'display: block');
 
-  }
-
-  self.showDataCuration = function() {
-   console.log("In showDataCuration");
   }
 
 

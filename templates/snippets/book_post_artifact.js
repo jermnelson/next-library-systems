@@ -19,7 +19,7 @@ function stepOne(view_model) {
      view_model.manuscript.animate().cx(475).after(function() {
       view_model.preArtifactSystemReaders.animate().y(90).after(function() {
        view_model.explanations.push({ paragraph: "Readers can engage the author through social media and other analytics" });
-       $('#features-functions').children().last().after("<li>Support reader annotation on incomplete creative works?</li>");
+       $('#features-functions').children().last().after("<li>Support reader annotations such as comments, on incomplete creative works?</li>");
        view_model.manuscript.animate().move(300, 270).after(function() { 
          view_model.manuscript.animate().move(224, 380).after(function() {
           setTimeout(function() {
@@ -43,7 +43,7 @@ function stepTwo(view_model) {
  view_model.stepTitle("2. Print Flow");
  view_model.explanations.removeAll();
  view_model.explanations.push({ paragraph: "At this point, the classic model and the post-artifact model diverge"}); 
- view_model.printFlow.animate().scale(2.0,2.0).x(-250).opacity(1.0).during(function() { 
+ view_model.printFlow.animate().scale(1.75,1.75).x(-250).opacity(1.0).during(function() { 
    view_model.artifact_label.move(10, 40).rotate(0);
  }).after(function() {
    var book_img = view_model.svgDraw.image("{{ url_for('static', filename='img/print_book.png') }}");

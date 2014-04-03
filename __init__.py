@@ -42,6 +42,7 @@ slides['beyond-mobile-heads-up-augmented-services'] = {
 
 references = []
 intro2libsys_path = "C:\\Users\\jernelson\\Development\\intro2libsys"
+intro2libsys_path = "/Users/jeremynelson/intro2libsys"
 for row in [
     'Article/ask-devops-guest-mobile-first-is-no-longer-enough.json',
     'Article/from-push-to-pull.json',
