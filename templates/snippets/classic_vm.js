@@ -15,7 +15,8 @@ var BookAsSystemViewModel = function() {
    self.playAll(true);
    self.showLinearArtifact();
  }
- 
+
+
  self.initSVG = function() { 
    
 	 self.svgDraw = SVG('book-sys-animation').size('800', '400');
@@ -163,10 +164,10 @@ self.initSVG();
        self.manuscript.show();
        self.manuscript.animate().opacity(1.0).after(function() {
          self.explanations.push({'paragraph': "The author writes a manuscript, traditionally in isolation, with few contacts with readers"});
+         self.explanations.push({'paragraph': "Special Collections and Archives typically collect manuscripts often using TEI and EAD to describe the collection"});
          self.manuscript.animate(4000).x(450).after(function() {  
-          self.explanations.push({'paragraph': "Special Collections and Archives typically collect manuscripts often using TEI and EAD to describe the collection"});
            if(self.playAll()) {
-             self.publishBook();
+             setTimeout(function() { self.publishBook(); }, 10000);
            }
            self.lightBlub.hide();
            self.hemingway.animate().x(20).after(function() { 
@@ -220,7 +221,7 @@ self.initSVG();
               'text-transform': 'uppercase' }).move(80,25));
               self.printBook.animate().x(100).after(function() {
                 if(self.playAll()) {
-                  self.greatImmutableArtifact();
+                  self.greatImmutableArtifact(); 
                 }
                 self.printingPress.hide(); 
                 self.hemingway.hide();
@@ -242,19 +243,22 @@ self.initSVG();
    self.explanations.push({'paragraph': "Craig Mod calls the printed book, the <i>Great Immutable Artifact</i>"});
    self.thirdStep.add(self.greatArtifact);
    self.greatArtifact.animate().scale(1.5,1.5).after(function() {
-     self.explanations.push({'paragraph': "A book, once printed, assumes a number of properties of interested to libraries"});
+     self.explanations.push({'paragraph': "A book, once printed, assumes a number of properties of interest to libraries"});
      setTimeout(function() {
-        self.explanations.push({'paragraph': "RDA properties like ISBN, page numbers, illustrations"});
+        self.explanations.push({'paragraph': "title, author, publisher, and other bibliographic data encoded in MARC21" });
      }, 3000);
-      $('#features-functions').children().last().after("<li>Support RDA and legacy AACRL2</li>");
+     setTimeout(function() {
+        self.explanations.push({ paragraph: "Now adding RDA properties like ISBN, page numbers, illustrations"});  
+     }, 3000);
+      $('#features-functions').children().last().after("<li>Support RDA and legacy AACR2</li>");
      var book_img = self.svgDraw.image("{{ url_for('static', filename='img/print_book.png') }}").scale(0.75, 0.75);
      book_img.move(50,79);
      self.greatArtifact.add(book_img);
      setTimeout(function() { 
        if(self.playAll()) {
-          self.distributeAcquire();          
+          self.distributeAcquire();         
         } 
-      }, 4000);
+      }, 15000);
    });
  }
 
@@ -275,13 +279,13 @@ self.initSVG();
 	 self.explanations.push({"paragraph": "The publisher sends the Book to the distributor"}); 
           $('#features-functions').children().last().after("<li>Track costs, funding sources, and other provenance over the lifetime of the artifact</li>");
          self.library_stacks.back().show();
-	 self.book_image.animate().x(310).scale(0.1,0.1).after(function() {
+	 self.book_image.animate().move(320, 225).scale(0.1,0.1).after(function() {
 	   self.explanations.push({"paragraph": "The Library acquires the book, either through patron demand or collection policies"});
            setTimeout(function() {
              if(self.playAll()) {
               self.pushToReaders();
            }
-          }, 10000);
+          }, 15000);
 	 });
      });
     });
@@ -290,7 +294,7 @@ self.initSVG();
  
  self.pushToReaders = function() {
    self.forthStep.hide();
-   self.book_image.x(3).hide();
+   self.book_image.hide();
    self.library_stacks.animate().x(30);   
    self.stepTitle("5. Push Book to Readers");
    self.explanations.removeAll();
@@ -299,13 +303,32 @@ self.initSVG();
 
    self.fifthStep = self.svgDraw.group()
    self.fifthStep.add(self.readers);
+   self.fifthStep.x(100);
    self.readersLabel.rotate(0);
+   var card_catalog = self.svgDraw.image("{{ url_for('static', filename='img/card-catalog.jpg') }}").hide();
+   var telnet_catalog = self.svgDraw.image("{{ url_for('static', filename='img/Dynix-Main-Menu-via-Telnet.jpg') }}").hide();
+   var prospector_catalog = self.svgDraw.image("{{ url_for('static', filename='img/prospector-home.png') }}").hide();
+   card_catalog.move(270, 120).show();
+   telnet_catalog.move(270, 220).show();
+   prospector_catalog.move(270, 300).show();
    self.readers.animate().scale(2.0, 2.0).move(300, 20).after(function() { 
-      self.explanations.push({'paragraph': "Reader finds Book through the library's catalog or requests Book from collection"});
-      self.book_image.show();
-      self.book_image.scale(1.0, 1.0);
-   
-      
+      self.explanations.push({'paragraph': "Reader finds Book through the library's catalog"});
+      self.book_image.move(200, 75);
+      self.book_image.scale(1.0, 1.0).show();
+      self.book_image.animate().move(400, 100).after(function() {
+        self.explanations.push({paragraph: "First through find the book using the Library's card catalog"});
+        card_catalog.animate().opacity(0.5).after(function() {
+          self.book_image.hide().move(100, 100).show();
+          self.explanations.push({paragraph: "Next through catalog running on dedicated computer terminals"});
+          self.book_image.animate().move(200, 100).after(function() {
+            self.book_image.hide().move(100, 100).show();
+            self.explanations.push({paragraph: "Finally readers use our modern OPACS and Discovery Services to locate the book"}); 
+            telnet_catalog.animate().opacity(0.5).after(function() {
+              self.book_image.animate().move(200, 350);
+            });
+         });
+       });  
+     }); 
    });
  }
  

@@ -41,19 +41,32 @@ slides['beyond-mobile-heads-up-augmented-services'] = {
     'description': """ """}
 
 references = []
-for url in []:
-##    'http://intro2libsys.info/Article/ask-devops-guest-mobile-first-is-no-longer-enough.json',
-##    'http://intro2libsys.info/Article/material-addicts-when-open-access-becomes-a-cult.json',
-##    'http://intro2libsys.info/Article/post-artifact-books-and-publishing.json']:
-    result = json.load(urllib2.urlopen(url))
-    resource = result
-    author = result.get('author')
-    resource['author'] = []
-    for row in author:
-        author_result = json.load(urllib2.urlopen("{}.json".format(
-            row.get('@id'))))
-        resource['author'].append(str(author_result.get('name')))
-    references.append(resource)
+intro2libsys_path = "C:\\Users\\jernelson\\Development\\intro2libsys"
+for row in [
+    'Article/ask-devops-guest-mobile-first-is-no-longer-enough.json',
+    'Article/from-push-to-pull.json',
+    'Article/library-technology-forecast-for-2014-and-beyond.json',
+    'Article/material-addicts-when-open-access-becomes-a-cult.json',
+    'Article/post-artifact-books-and-publishing.json',
+    'BlogPosting/the-web-scale-university-press.json']:
+        thing_type, filename = os.path.split(row)
+        resource_path = os.path.join(intro2libsys_path,
+            "thing",
+            thing_type,
+            filename)
+        result = json.load(open(resource_path))
+        resource = result
+        author = result.get('author')
+        resource['author'] = []
+        for row in author:
+            author_key = row.get('@id').split("/")[-1]
+            person_path = os.path.join(intro2libsys_path,
+                "thing",
+                'Person',
+                "{}.json".format(author_key))
+            author_result = json.load(open(person_path))
+            resource['author'].append(str(author_result.get('name')))
+        references.append(resource)
 
 
 @app.route("/<slide>.html")
