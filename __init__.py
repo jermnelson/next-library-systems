@@ -28,23 +28,28 @@ slides['our-future-tracks-the-book'] = {'label': 'Our Future tracks the book',
     dominated our identity. Just in the past ten years has the book started to
     shifting to new, more online forms that split the content from the print
     format."""}
-slides['discovery-elsewhere-local-needed']= {
-    'label':"""Discovery happens elsewhere&hellip; but local is needed more
-    than ever""",
+
+slides['discovery-elsewhere']= {
+    'label':"""Discovery happens elsewhere&hellip;""",
     'description': """First articulated by Lorcan Dempsey in 2007, in 2014 it
     is not as controversial to note that typically patrons use commerical search
     engines, social media, or mobile apps to discover items held by libraries.
     """}
 
-slides['beyond-mobile-heads-up-augmented-services'] = {
-    'label': 'Beyond Mobile -- Heads ups to Augmented Services',
+slides['local-needed-more-than-ever'] = {
+    'label': '&hellip; but local is needed more than ever',
     'description': """ """}
+
+slides['one-approach-to-lib-sys'] = {
+    'label': 'One Approach to Future Library Systems'
+}
 
 references = []
 intro2libsys_path = "C:\\Users\\jernelson\\Development\\intro2libsys"
-intro2libsys_path = "/Users/jeremynelson/intro2libsys"
+##intro2libsys_path = "/Users/jeremynelson/intro2libsys"
 for row in [
     'Article/ask-devops-guest-mobile-first-is-no-longer-enough.json',
+    'BlogPosting/catalog-by-design.json',
     'Article/from-push-to-pull.json',
     'Article/library-technology-forecast-for-2014-and-beyond.json',
     'Article/material-addicts-when-open-access-becomes-a-cult.json',
@@ -57,6 +62,7 @@ for row in [
             filename)
         result = json.load(open(resource_path))
         resource = result
+        resource['a_name'] = filename.split(".")[0]
         author = result.get('author')
         resource['author'] = []
         for row in author:

@@ -1,53 +1,9 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<span id="discovery-view">
-<div class="jumbotron">
- <h1>Discovery happens elsewhere&hellip; 
-     <a href="#" 
-        class="btn btn-lg"
-        data-bind="click: showLocalNeeded"><span class="glyphicon glyphicon-chevron-right"></span></a></h1>
- <p class="lead">
-   While it shouldn't be too controversial to state that many of our potential 
-   library patrons will find our collections through commercial search engines
-   like <a href="http://www.google.com/">Google</a> and 
-   <a href="http://bing.com/">Microsoft Bing</a> or be referred to an item through
-   popular social networks like <a href="http://facebook.com/">Facebook</a>, 
-   <a href="http://linkedin.com/">LinkedIn</a>, or 
-   <a href="http://twitter.com/">Twitter</a>.   
- </p>
-</div>
-
-
-<div class="row">
- <div class="col-md-6">
-  <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Logo_2013_Google.png/320px-Logo_2013_Google.png" 
-       id="google-img" style="position: relative">
-  <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Facebook.svg/200px-Facebook.svg.png" 
-       id="facebook-img" style="position: relative">
-  <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Bing_logo_%282013%29.svg/200px-Bing_logo_%282013%29.svg.png"
-       id="bing-img" style="position: relative">
-  <img src="http://upload.wikimedia.org/wikipedia/en/thumb/9/9f/Twitter_bird_logo_2012.svg/200px-Twitter_bird_logo_2012.svg.png"
-       id="twitter-img" style="position: relative">
- </div>
- <div class="col-md-6">
-  <h2>Features &amp; Functions</h2>
-  <ul data-bind="foreach: featuresAndFunctionsQuestions">
-   <li data-bind="html: $data"></li>
-  </ul>
- </div>
-</div>
-
-<hr>
-
-</span>
-
-<span id="local-collections-view" style="display:none">
 <div class="jumbotron">
  <h1>
-  <a href="#" class="btn btn-lg" data-bind="click:showDiscovery"> 
-   <span class="glyphicon glyphicon-chevron-left"></span>
- </a>
+  <small>Discovery happens elsewhere</small>
   &hellip;but local is needed more than ever</h1>
  <p class="lead">
   The library is becoming the center of creative activity in our
@@ -57,10 +13,11 @@
   library MakerLabs.
  </p>
 </div>
+
 <hr>
 <div class="well">
  <h1>Data Curation</h1>
- <p class="lead">Big, small, or medium, managing <em>data</em> produced by our communities
+ <p class="lead bg-danger">Big, small, or medium, managing <em>data</em> produced by our communities
  is a challenge libraries face. From local storage of operational data created by sensors 
  and experiments, to national and international data sharing sites for various disciplines,
  we need library systems that are flexible enough to handle the preservation of 
@@ -77,7 +34,7 @@
   we need from our library systems. 
  </p>
  <h1>3D Printing and Makerspaces</h1>
- <p class="lead">
+ <p class="lead bg-warning">
   Situating 3D printers and other tools in the library as Makerspace, may just be a passing
   trend but it points to a critical need for library systems to be able to describe and 
   associate a creative work through the initial ideas, to intermediary blueprints, through 
@@ -116,128 +73,21 @@
  </div>
 </div>
 <hr>
-
-
-</span>
-
-
-
 <div class="row">
-  <div class="col-md-6">
-    <a href="{{ url_for('slide', slide='our-future-tracks-the-book') }}" class="btn btn-success btn-lg">
-      <span class="glyphicon glyphicon-chevron-left"></span> Our Future Tracks the Book</a>
-  </div>
-  <div class="col-md-6">
-    <a href="{{ url_for('slide', slide='beyond-mobile-heads-up-augmented-services') }}" 
-       class="btn btn-success btn-lg">Beyond Mobile to Augmented Services &amp; Internet of Things
-     <span class="glyphicon glyphicon-chevron-right"></span>
+  <div class="col-md-12">
+   <div class="btn-group pull-right"> 
+    <a href="{{ url_for('slide', slide='one-approach-to-lib-sys') }}" class="btn btn-success btn-lg">
+     One Approach to Future Library Systems
+         <span class="glyphicon glyphicon-chevron-right"></span>
     </a>
+   </div>
   </div>
-</div>
-
-{% endblock %}
-
-{% block dialogs %}
-{# START thought-experiment-dlg #}
-<div class="modal fade" id="thought-experiment-dlg">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h1 class="modal-title"><span class=""></span> Thought Experiment</h1>
-      </div>
-      <div class="modal-body">
-        <h2>What if we decreased support for discovery services and instead promoted our collections through
-          paid advertising on Google, Facebook, LinkedIn, or Twitter?</h2>
-        <p>
-         Let us assume (a big if!) that one of our primary objectives as libraries is to increase usage
-         and exposure of our collections. Further, we have a preference for promoting locally curated
-         and published sources from our communities creative artifacts. So&hellip;  
-        </p>
-        <ul>
-         <li>Should we expect usage and "discovery" to increase for our collections?</li>
-         <li>What would be the continuing advertising costs for such a strategy? 
-         <li>Is it sustainable?</li>
-         <li>What are some secondary consequences of this strategy?</li> 
-         <li>How does Search Engine Optimization change?</li> 
-           
-        </ul>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-{# END thought-experiment-dlg #}
 </div>
 {% endblock %}
 
 {% block inline_js %}
 <script>
-  function makeNewPosition($container) {
-    $container = ($container || $(window))
-    var h = $container.height() - 50;
-    var w = $container.width() - 50;
-
-    var nh = Math.floor(Math.random() * h);
-    var nw = Math.floor(Math.random() * w);
-
-    return [nh, nw];
-  }
-
-  function animateImage(image_name) {
-    var image = $('#'+image_name);
-    var newq = self.makeNewPosition(image.parent());
-    var oldq = image.offset();
-    var speed = self.calcSpeed([oldq.top, oldq.left], newq);
-    image.animate({top: newq[0], left: newq[1]},
-                   speed, 
-                   function() {
-                     animateImage(image_name) });
-  }
-
-  function calcSpeed(prev, next) {
-    var x = Math.abs(prev[1] - next[1]);
-    var y = Math.abs(prev[0] - next[0]);
-
-    var greatest = x > y ? x : y;
-
-    var speedModifier = 0.1;
-
-    var speed = Math.ceil(greatest / speedModifier);
-
-    return speed;
-  }
-
-  var DiscoveryViewModel = function() {
-  var self = this;
-  
-  animateImage('google-img'); 
-  animateImage('facebook-img');
-  animateImage('bing-img');
-  animateImage('twitter-img');
-  
-  self.shownThoughtExperience = false;
- 
-  self.featuresAndFunctionsQuestions = ko.observableArray([
-   "Does the system provide <a href='http://www.sitemaps.org/'>Sitemaps</a> for commercial and specialized web-crawlers?",
-   "Markup collections in Schema.org and other vocabularies",
-   "Adopt <a href='http://www.niso.org/workrooms/resourcesync/'>ResourceSync</a> for resource sharing",
-   "CRUD (<b>C</b>reate, <b>R</b>ead,  <b>U</b>pdate, & <b>D</b>elete)  API (Application Programming Interface) access into the system for trusted partners.",
-   "Blurs lines between local, regional, national, and international systems (Promise of LinkedData)"]);
-
-  self.showLocalNeeded = function() {
-    $('#discovery-view').attr('style', 'display:none');
-    $('#local-collections-view').attr('style', 'display:block');
-    if(!self.shownThoughtExperience) {
-      $('#thought-experiment-dlg').modal('show');
-      self.shownThoughtExperience = true;
-    }
-  }
-
- }
-
- var LocalNeededViewModel = function() {
+var LocalNeededViewModel = function() {
   var self=this;
   var margin = 10;
 
@@ -326,12 +176,9 @@
 
 
  }
-
-var discovery_view = new DiscoveryViewModel();
-var local_needed_view = new LocalNeededViewModel();
-
-ko.applyBindings(discovery_view, document.getElementById('discovery-view'));
-ko.applyBindings(local_needed_view, document.getElementById('local-collections-view'));
-</script>
-
+ 
+ var local_needed_view = new LocalNeededViewModel();
+ ko.applyBindings(local_needed_view);
+ </script>
 {% endblock %}
+

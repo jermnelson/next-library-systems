@@ -6,8 +6,9 @@
   integration has advanced into the must-have category of features for any online catalog or discovery 
   product oriented to public libraries. The ability to implement this feature depends on the 
   availability of APIs exposed by the ebook lending services. from 
-  <footer>Marshell Breeding, <em>Library Technology Forecast for 2014 and 
-  Beyond</em>
+  <footer>Marshell Breeding, 
+  <a href="{{ url_for('resources') }}#library-technology-forecast-for-2014-and-beyond"><em>Library Technology Forecast for 2014 and 
+  Beyond</em></a>
   </footer>
 </blockquote>
 
@@ -41,7 +42,8 @@
 <hr>
 
 <div class="well well-sm">
-  <h2>From MARC to LinkedData</h2>
+  <h2>From MARC</h2>
+   <img src="{{ url_for('static', filename='img/marc21h2.gif') }}" class="pull-right">
    <p>
     As the book publishing systems has evolved and changed, so too has our ability to 
     describe the books properties and relationships with other books, local and national
@@ -49,13 +51,24 @@
     Authority, and Holdings records, are how these relationships were describing a book 
     in the classic Book publishing system. 
    </p>
+    <img src="{{ url_for('static', filename='img/bibframe.png') }}" class="pull-left"
+         style="height: 250px;width:auto">
+    <h2>To LinkedData</h2>
    <p>
-    Using linked data - a way to make assertations about artifacts that has global scope with 
+    Using linked data - a way to make assertions about artifacts that has global scope with 
     sharded URIs - libraries have the opportunity to deeply enrich their local collections through
     connecting with local, regional, national, and international sources of linked data.
     The new Library of Congress <a href="http://bibframe.org">BIBFRAME</a> along with
     the <a href="http://schema.og/">Schema.org</a> linked data vocabularies are examples of
-    organizaing assertations about artifacts.
+    organizing assertions about artifacts.
+   </p>
+   <p>
+    With more organizations releasing their interfaces to their data, Linked Data holds the 
+    promise of embedding and merging data-sources such as 
+    <a href="http://dbpedia.org/">DBpedia</a> (structured information extracted from Wikipedia),
+    <a href="http://worldcat.org">WorldCat</a>, <a href="http://www.vivoweb.org/">VIVO</a>,
+    <a href="http://id.loc.gov/">Library of Congress 
+    Authorities and Vocabularies</a>, and <a href="http://viaf.org/">VIAF</a>.
    </p>
  </div>
  <hr>
@@ -69,15 +82,56 @@
     For many years, the book was the bibliographic entity that libraries described with MARC21
     and AACR2. Note fields in the MARC record allowed for some information about the contents 
     of the book to be included in the record but the book's chapters and certainly not paragraphs
-    were not described and available through the catalog. Periodical entities are described in
-    the MARC21 record in somewhat more granularity with the "work" and "issue" level of descriptions.
-    MARC records for may or may not include  
-    our modern ILS and Library Services platforms require additional technology to associate
+    are not described and available through our catalog the catalog. 
+   </p>
+   </p>
+   <table class="table table-border">
+    <tr>
+      <td style="text-align:center">
+      <span class="glyphicon glyphicon-arrow-up"></span><br>
+       Less granularity<br>
+       to<br>
+       More granularity<br>
+       <span class="glyphicon glyphicon-arrow-down"></span><br>
+      <td style="text-align:center">
+        <strong>Book</strong><br>
+        <span class="glyphicon glyphicon-arrow-down"></span><br>
+        Chapter<br>
+        <span class="glyphicon glyphicon-arrow-down"></span><br>
+        Paragraph<br>
+        <span class="glyphicon glyphicon-arrow-down"></span><br>
+        Word
+      </td>
+      <td style="text-align:center">
+        <strong>Serial or Periodical</strong><br>
+        <span class="glyphicon glyphicon-arrow-down"></span><br>
+        Issue<br>
+        <span class="glyphicon glyphicon-arrow-down"></span><br>
+        Article<br>
+        <span class="glyphicon glyphicon-arrow-down"></span><br>
+        Paragraph<br>
+        <span class="glyphicon glyphicon-arrow-down"></span><br>
+        Word
+      </td>
+      <td style="text-align:center">
+       <strong>Musical Recording</strong><br>
+       <span class="glyphicon glyphicon-arrow-down"></span><br>
+       Play list<br>
+       <span class="glyphicon glyphicon-arrow-down"></span><br>
+       Song<br>
+       <span class="glyphicon glyphicon-arrow-down"></span><br>
+       Sample
+      </td>
+      <td style="text-align:center">
+       <strong>Video</strong><br>
+       <span class="glyphicon glyphicon-arrow-down"></span><br>
+       Video Clip<br>
+       <span class="glyphicon glyphicon-arrow-down"></span><br>
+       Screenshot
+     </td>
+    </tr>
+  </table>
     
-   </p>
-   <p>
-    While our patrons sea
-   </p>
   </div>
 </div>
 <div class="row">
@@ -85,7 +139,7 @@
  <div class="col-md-12">
   <h2>Library Systems Features &amp; Functions</h2>
   <ul id="features-functions">
-   <li class="hide"></li>
+   <li>Support patron annotations on increasingly granular levels of creative artifacts?</li>
   </ul>
  </div>
 
@@ -96,8 +150,8 @@
 <div class="row">
   <div class="col-md-12">
    <div class="btn-group pull-right"> 
-    <a href="{{ url_for('slide', slide='discovery-elsewhere-local-needed') }}" class="btn btn-success btn-lg">
-       Discovery happens elsewhere&hellip;but local is needed more than ever
+    <a href="{{ url_for('slide', slide='discovery-elsewhere') }}" class="btn btn-success btn-lg">
+       Discovery happens elsewhere&hellip;
     <span class="glyphicon glyphicon-chevron-right"></span>
     </a>
    </div>
