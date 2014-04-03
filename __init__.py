@@ -57,7 +57,7 @@ elif sys.platform.startswith('darwin'):
     intro2libsys_path = "/Users/jeremynelson/intro2libsys"
 
 identity_salt = 'Alliance Next Gen ILS Badge'
-
+project_root = os.path.abspath(os.path.dirname(__file__))
 
 for row in [
     'Article/ask-devops-guest-mobile-first-is-no-longer-enough.json',
@@ -149,10 +149,10 @@ def attender_badge(uid):
                                          'badges',
                                          'img',
                                          '{0}.png'.format(uid))
-    if os.path.exists(badge_location) and os.path.exists(attender_img_location):
+    if os.path.exists(badge_location):
         badge = json.load(open(badge_location))
-        badge['image'] =  'http://intro2libsys.info/next-library-systems-2014/{}-attender-badge.png'.format(
-            uid)
+        if os.path.exists(attender_img_location):
+            badge['image'] =  'http://intro2libsys.info/next-library-systems-2014/{}-attender-badge.png'.format(uid)
         return jsonify(badge)
     else:
         abort(404)
@@ -186,7 +186,7 @@ def issue_badge(**kwargs):
     identity_hash = hashlib.sha256(kwargs.get("email"))
     identity_hash.update(identity_salt)
     uid = str(uuid.uuid4()).split("-")[0]
-    uid_url = url_for('attender_badge', uid=uid)
+    uid_url = 'http://intro2libsys.info/next-library-systems-2014/{}-attender-badge.json'.format(uid)
     print(uid_url)
     badge_json = {
         'badge': "http://intro2libsys.info/next-library-systems-2014/attender-badge.json",
