@@ -49,12 +49,15 @@ slides['one-approach-to-lib-sys'] = {
 
 references = []
 
-intro2libsys_path = "C:\\Users\\jernelson\\Development\\intro2libsys"
-##intro2libsys_path = "/Users/jeremynelson/intro2libsys"
+if sys.platform == 'win32':
+    intro2libsys_path = "C:\\Users\\jernelson\\Development\\intro2libsys"
+elif sys.platform.startswith('linux2'):
+    intro2libsys_path = "/home/jpnelson/intro2libsys"
+elif sys.platform.startswith('darwin'):
+    intro2libsys_path = "/Users/jeremynelson/intro2libsys"
+
 identity_salt = 'Alliance Next Gen ILS Badge'
 
-#intro2libsys_path = "C:\\Users\\jernelson\\Development\\intro2libsys"
-intro2libsys_path = "../intro2libsys"
 
 for row in [
     'Article/ask-devops-guest-mobile-first-is-no-longer-enough.json',
