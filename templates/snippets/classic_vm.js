@@ -188,7 +188,7 @@ self.initSVG();
        self.manuscript.show();
        self.manuscript.animate().opacity(1.0).after(function() {
          self.explanations.push({'paragraph': "The author writes a manuscript, traditionally in isolation, with few contacts with readers"});
-         self.explanations.push({'paragraph': "Special Collections and Archives typically collect manuscripts often using TEI and EAD to describe the collection"});
+         self.explanations.push({'paragraph': "Special Collections and Archives typically collect manuscripts often using TEI and brief MARC records to describe the collection"});
          self.manuscript.animate(4000).x(450).after(function() {  
            if(self.playAll()) {
              setTimeout(function() { self.publishBook(); }, 10000);
@@ -274,7 +274,7 @@ self.initSVG();
      setTimeout(function() {
         self.explanations.push({ paragraph: "Now adding RDA practices and properties to description in MARC"});  
      }, 3000);
-      $('#features-functions').children().last().after("<li>Support RDA and legacy AACR2</li>");
+      $('#features-functions').children().last().after("<li>Does the library systme support RDA and legacy formats like AACR2?</li>");
      var book_img = self.svgDraw.image("{{ url_for('static', filename='img/print_book.png') }}").scale(0.75, 0.75);
      book_img.move(50,79);
      self.greatArtifact.add(book_img);
@@ -323,7 +323,6 @@ self.initSVG();
    self.stepTitle("5. Push Book to Readers");
    self.explanations.removeAll();
    self.explanations.push({'paragraph': "Book is made available to patrons after shelving in the library's stacks"});
-   $('#features-functions').children().last().after("<li>Track costs and funding sources associated with the artifact</li>");
 
    self.fifthStep = self.svgDraw.group()
    self.fifthStep.add(self.readers);
