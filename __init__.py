@@ -51,7 +51,7 @@ references = []
 
 if sys.platform == 'win32':
     intro2libsys_path = "C:\\Users\\jernelson\\Development\\intro2libsys"
-elif sys.platform.startswith('linux2'):
+elif sys.platform.startswith('linux'):
     intro2libsys_path = "/home/jpnelson/intro2libsys"
 elif sys.platform.startswith('darwin'):
     intro2libsys_path = "/Users/jeremynelson/intro2libsys"
