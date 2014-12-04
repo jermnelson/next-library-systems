@@ -14,7 +14,7 @@ import hashlib
 import json
 import os
 import sys
-import urllib2
+import urllib.request
 import uuid
 
 from collections import OrderedDict
@@ -175,7 +175,7 @@ def bake_badge(**kwargs):
     assert_url = kwargs.get('url')
     try:
         badge_url = 'http://beta.openbadges.org/baker?assertion={0}'.format(assert_url)
-        baking_service = urllib2.urlopen(badge_url)
+        baking_service = urllib.request.urlopen(badge_url)
         raw_image = baking_service.read()
         return raw_image
     except:
