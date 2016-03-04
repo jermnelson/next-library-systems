@@ -14,7 +14,13 @@ import hashlib
 import json
 import os
 import sys
-import urllib2
+
+
+# Python 3 hack
+try:
+    import urllib2
+except ImportError:
+    import urllib.request as urllib2
 import uuid
 
 from collections import OrderedDict
