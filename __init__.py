@@ -15,7 +15,6 @@ import json
 import os
 import sys
 
-
 # Python 3 hack
 try:
     import urllib2
@@ -57,8 +56,8 @@ references = []
 
 if sys.platform == 'win32':
     intro2libsys_path = "C:\\Users\\jernelson\\Development\\intro2libsys"
-elif sys.platform.startswith('linux2'):
-    intro2libsys_path = "/home/jpnelson/intro2libsys"
+elif sys.platform.startswith('linux'):
+    intro2libsys_path = "/opt/intro2libsys"
 elif sys.platform.startswith('darwin'):
     intro2libsys_path = "/Users/jeremynelson/intro2libsys"
 
@@ -181,7 +180,7 @@ def bake_badge(**kwargs):
     assert_url = kwargs.get('url')
     try:
         badge_url = 'http://beta.openbadges.org/baker?assertion={0}'.format(assert_url)
-        baking_service = urllib2.urlopen(badge_url)
+        baking_service = urllib.request.urlopen(badge_url)
         raw_image = baking_service.read()
         return raw_image
     except:
